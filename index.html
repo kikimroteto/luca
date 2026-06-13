@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUKA — 書籍・広告・キャラクターのイラスト制作</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── HERO MV ── */
+    .hero-mv {
+      position: relative;
+      width: 100%;
+      height: 100svh;
+      overflow: hidden;
+    }
+    .mv-track {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      height: 100%;
+      padding: calc(var(--hh) + 2rem) 3.5rem 5rem;
+      box-sizing: border-box;
+    }
+    .mv-panel {
+      overflow: hidden;
+      position: relative;
+    }
+    .mv-panel { border-radius: 16px; }
+    .mv-panel img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      display: block;
+    }
+    .mv-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,.72) 0%, rgba(0,0,0,.08) 45%, transparent 68%);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .mv-body {
+      position: absolute;
+      bottom: 4.5rem;
+      left: 4rem;
+      z-index: 2;
+      color: #fff;
+    }
+    .mv-eyebrow {
+      font-family: 'Poppins', sans-serif;
+      font-size: .58rem;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.62);
+      margin-bottom: .65rem;
+      display: block;
+    }
+    .mv-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(3.5rem, 8.5vw, 7.5rem);
+      font-weight: 700;
+      line-height: .9;
+      letter-spacing: -.02em;
+      margin-bottom: .7rem;
+      display: block;
+    }
+    .mv-sub {
+      font-family: var(--font-ja);
+      font-size: clamp(1.1rem, 2.2vw, 1.7rem);
+      font-weight: 700;
+      margin-bottom: .4rem;
+      display: block;
+    }
+    .mv-desc {
+      font-size: .8rem;
+      color: rgba(255,255,255,.68);
+      letter-spacing: .06em;
+    }
+    .mv-dots { display: none; }
+    .mv-clone { display: none; }
+
+    /* スクロールインジケーター */
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      right: 3.5rem;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .6rem;
+      text-decoration: none;
+    }
+    .hero-scroll-text {
+      font-size: .5rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.45);
+      writing-mode: vertical-rl;
+    }
+    .hero-scroll-line {
+      width: 1px;
+      height: 40px;
+      background: rgba(255,255,255,.2);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-scroll-line::after {
+      content: '';
+      position: absolute;
+      top: -100%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,.55);
+      animation: scrollDrop 1.8s ease-in-out infinite;
+    }
+    @keyframes scrollDrop {
+      0%   { top: -100%; }
+      100% { top: 100%; }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    /* ── SECTION SHARED ── */
+    /* ── Profile (TOP) ── */
+    /* ── Profile section ── */
+    .sec-profile-top {
+      display: grid;
+      grid-template-columns:
+        calc(280px + max((100vw - var(--max)) / 2, 0px))
+        1fr;
+      overflow: hidden;
+      padding-top: 6rem;
+    }
+    .profile-main-img {
+      overflow: hidden;
+      border-radius: 0 16px 16px 0;
+    }
+    .profile-main-img img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
+      display: block;
+      transition: transform 1s ease;
+    }
+    .sec-profile-top:hover .profile-main-img img { transform: scale(1.04); }
+    .profile-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 4rem 3rem 6rem 4.5rem;
+      padding-right: calc(max((100vw - var(--max)) / 2, 0px) + 3.5rem);
+    }
+    .profile-content-inner .eyebrow { margin-bottom: 1.25rem; }
+    .profile-content-title {
+      font-family: var(--font-ja);
+      font-size: clamp(2.2rem, 3.5vw, 3rem);
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 1.75rem;
+      letter-spacing: .02em;
+    }
+    .profile-content-inner p {
+      font-size: .88rem;
+      color: var(--ink2);
+      line-height: 2.2;
+      margin-bottom: 1.25rem;
+      max-width: 400px;
+    }
+    .profile-nav-links {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+      margin-top: 2.5rem;
+    }
+    .profile-nav-link {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      text-decoration: none;
+      gap: 1rem;
+      transition: opacity .2s;
+    }
+    .profile-nav-link:hover { opacity: .6; }
+    .profile-nav-link-en {
+      font-family: 'Poppins', sans-serif;
+      font-size: .65rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--ink3);
+      margin-bottom: .3rem;
+    }
+    .profile-nav-link-ja {
+      font-family: var(--font-ja);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: .02em;
+    }
+    .profile-nav-link-arrow {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background .22s;
+    }
+    .profile-nav-link:hover .profile-nav-link-arrow { background: var(--accent); }
+    /* 丸 More ボタン */
+    .circle-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+    }
+    .circle-more-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background .25s;
+    }
+    .circle-more:hover .circle-more-icon { background: var(--accent); }
+    .circle-more-text {
+      font-family: 'Poppins', sans-serif;
+      font-size: .82rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--ink);
+      transition: color .25s;
+    }
+    .circle-more:hover .circle-more-text { color: var(--accent); }
+
+    /* ── Gallery preview ── */
+    .sec-gallery-preview { padding: 8rem 0 0; overflow: hidden; }
+    .gallery-preview-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 3rem;
+    }
+    .gallery-preview-head-left .eyebrow { margin-bottom: .5rem; }
+    .gallery-preview-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.7fr 1fr 1fr;
+      grid-template-rows: 300px 220px;
+      gap: .4rem;
+    }
+    .gallery-preview-item {
+      overflow: hidden;
+      background: var(--bg-muted);
+    }
+    .gallery-preview-item:nth-child(1) { grid-column: 1; grid-row: 1 / span 2; }
+    .gallery-preview-item:nth-child(2) { grid-column: 2 / span 2; grid-row: 1; }
+    .gallery-preview-item:nth-child(3) { grid-column: 4; grid-row: 1; }
+    .gallery-preview-item:nth-child(4) { grid-column: 2; grid-row: 2; }
+    .gallery-preview-item:nth-child(5) { grid-column: 3; grid-row: 2; }
+    .gallery-preview-item:nth-child(6) { grid-column: 4; grid-row: 2; }
+    .gallery-preview-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .7s;
+    }
+    .gallery-preview-item:hover img { transform: scale(1.06); }
+
+    /* ── Works ── */
+    .sec-works-new { padding: 8rem 0 7rem; background: var(--bg-soft); }
+    .works-new-head {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      margin-bottom: 5rem;
+    }
+    .works-new-head-text .eyebrow { margin-bottom: .5rem; }
+    .works-new-subhead {
+      font-family: var(--font-ja);
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.5;
+      margin: 1rem 0 1.25rem;
+      letter-spacing: .03em;
+    }
+    .works-new-head-text p {
+      font-size: .9rem;
+      color: var(--ink2);
+      line-height: 2.1;
+    }
+    .works-new-head-img {
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      border-radius: 10px;
+      background: var(--bg-muted);
+    }
+    .works-new-head-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .works-list { display: flex; flex-direction: column; }
+    .works-item {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 2.5rem;
+      align-items: center;
+      padding: 2rem 0;
+      border-top: 1px solid var(--border);
+    }
+    .works-item:last-child { border-bottom: 1px solid var(--border); }
+    .works-item-img {
+      aspect-ratio: 1/1;
+      overflow: hidden;
+      border-radius: 6px;
+      background: var(--bg-muted);
+    }
+    .works-item-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .6s;
+    }
+    .works-item:hover .works-item-img img { transform: scale(1.04); }
+    .works-item-cat {
+      font-size: .63rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-family: 'Poppins', sans-serif;
+      display: block;
+      margin-bottom: .5rem;
+    }
+    .works-item-title {
+      font-family: var(--font-ja);
+      font-size: clamp(1rem, 1.8vw, 1.3rem);
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: .75rem;
+      line-height: 1.5;
+      text-align: left;
+    }
+    .works-item-body-text {
+      font-size: .85rem;
+      color: var(--ink2);
+      line-height: 2;
+      text-align: left;
+    }
+    .works-all-link { text-align: center; margin-top: 3.5rem; }
+
+    /* ── Blog ── */
+    .sec-blog {
+      padding: 8rem 0 7rem;
+    }
+    .blog-new-head { margin-bottom: 3rem; }
+    .blog-new-head .eyebrow { margin-bottom: .5rem; }
+    .blog-grid-new {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+    .blog-card-new {
+      display: block;
+      text-decoration: none;
+      color: var(--ink);
+    }
+    .blog-card-new-thumb {
+      aspect-ratio: 3/2;
+      overflow: hidden;
+      border-radius: 8px;
+      background: var(--bg-muted);
+      margin-bottom: 1rem;
+    }
+    .blog-card-new-thumb img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .5s;
+    }
+    .blog-card-new:hover .blog-card-new-thumb img { transform: scale(1.04); }
+    .blog-card-new-meta {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      font-family: 'Poppins', sans-serif;
+      font-size: .68rem;
+      color: var(--ink3);
+      letter-spacing: .06em;
+      margin-bottom: .5rem;
+    }
+    .blog-card-new-cat { color: var(--accent); }
+    .blog-card-new-title {
+      font-size: .92rem;
+      line-height: 1.75;
+      color: var(--ink);
+      transition: color .2s;
+    }
+    .blog-card-new:hover .blog-card-new-title { color: var(--accent); }
+    .blog-more { text-align: center; }
+    .blog-card-new--sp { display: none; }
+
+    /* ── Service ── */
+    .sec-service-new {
+      padding: 8rem 0 7rem;
+      background: var(--bg-soft);
+    }
+    .service-new-head { margin-bottom: 4rem; }
+    .service-new-head .eyebrow { margin-bottom: .5rem; }
+    .service-grid-new {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.75rem;
+      margin-bottom: 3rem;
+    }
+    .service-card-new {
+      background: var(--bg);
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .service-card-new:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 28px rgba(0,0,0,.07);
+    }
+    .service-card-img {
+      aspect-ratio: 4/3;
+      overflow: hidden;
+    }
+    .service-card-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .5s;
+    }
+    .service-card-new:hover .service-card-img img { transform: scale(1.04); }
+    .service-card-body { padding: 1.5rem 1.75rem 1.75rem; }
+    .service-card-num {
+      font-family: 'Poppins', sans-serif;
+      font-size: .6rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .6rem;
+    }
+    .service-card-title {
+      font-family: var(--font-ja);
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: .6rem;
+      line-height: 1.4;
+    }
+    .service-card-desc {
+      font-size: .83rem;
+      color: var(--ink2);
+      line-height: 1.9;
+      margin-bottom: 1rem;
+    }
+    .service-card-price {
+      font-size: .72rem;
+      color: var(--ink3);
+      border-top: 1px solid var(--border);
+      padding-top: .85rem;
+    }
+    .service-card-price strong {
+      font-family: var(--font-en);
+      color: var(--accent);
+      font-size: .9rem;
+      font-weight: 300;
+    }
+    .service-all-link { text-align: center; }
+
+    /* ── Contact (dark) ── */
+    .sec-contact-dark {
+      padding: 6rem 4rem;
+      background: #2e2926;
+      border-radius: 20px;
+      overflow: hidden;
+      margin: 0 2rem 4rem;
+    }
+    .contact-dark-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .contact-dark-left .eyebrow { color: #fff; margin-bottom: .5rem; }
+    .contact-dark-left .sec-deco-title { color: #fff; margin-bottom: 1.75rem; }
+    .contact-dark-left-body {
+      font-size: .88rem;
+      color: #fff;
+      line-height: 2.1;
+      margin-bottom: 2.5rem;
+    }
+    .contact-circle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 1.25rem;
+      text-decoration: none;
+    }
+    .contact-circle-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background .25s;
+    }
+    .contact-circle-btn:hover .contact-circle-icon { background: rgba(255,255,255,.22); }
+    .contact-circle-label {
+      font-family: 'Poppins', sans-serif;
+      font-size: .78rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #fff;
+      transition: color .25s;
+    }
+    .contact-dark-items { display: flex; flex-direction: column; }
+    .contact-dark-item {
+      display: grid;
+      grid-template-columns: 68px 1fr;
+      gap: 1.5rem;
+      align-items: center;
+      padding: 1.75rem 0;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      text-decoration: none;
+      transition: opacity .2s;
+    }
+    .contact-dark-item:first-child { border-top: 1px solid rgba(255,255,255,.1); }
+    .contact-dark-item:hover { opacity: .75; }
+    .contact-dark-item-icon {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .contact-dark-item h3 {
+      font-family: var(--font-ja);
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: .3rem;
+      line-height: 1.4;
+    }
+    .contact-dark-item p {
+      font-size: .82rem;
+      color: #fff;
+      line-height: 1.7;
+    }
+
+    /* ── Brand Statement ── */
+    .sec-brand-stmt {
+      padding: 6rem 0 5rem;
+    }
+    .brand-stmt-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .brand-stmt-name {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(4rem, 9vw, 9rem);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1;
+      letter-spacing: -.03em;
+    }
+    .brand-stmt-tagline {
+      font-family: var(--font-ja);
+      font-size: clamp(1.4rem, 2.8vw, 2.4rem);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.4;
+      margin-bottom: .75rem;
+    }
+    .brand-stmt-desc {
+      font-size: .82rem;
+      color: var(--ink3);
+      letter-spacing: .08em;
+    }
+
+    @media (max-width: 960px) {
+      /* ── SP SLIDER ── */
+      .mv-track {
+        display: flex;
+        gap: 12px;
+        height: 100%;
+        padding: 0;
+        transition: transform .7s cubic-bezier(.4,0,.2,1);
+      }
+      .mv-panel {
+        width: 85vw;
+        flex-shrink: 0;
+        border-radius: 16px !important;
+      }
+      .mv-clone { display: flex; }
+      .mv-track { padding: calc(var(--hh) + 1rem) 0 4rem; }
+      .mv-body { bottom: 4rem; left: 1.5rem; right: 1.5rem; }
+      .mv-dots {
+        display: flex;
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        gap: .5rem;
+        z-index: 3;
+      }
+      .mv-dot {
+        height: 6px;
+        width: 6px;
+        border-radius: 3px;
+        background: rgba(255,255,255,.38);
+        transition: width .3s, background .3s;
+      }
+      .mv-dot.active { width: 18px; background: #fff; }
+      .hero-scroll { display: none; }
+      /* ── NEW SECTIONS SP ── */
+      .sec-profile-top { grid-template-columns: 1fr; padding-top: 0; }
+      .profile-main-img { aspect-ratio: 3/4; border-radius: 0; }
+      .profile-content { padding: 3rem 1.5rem 5rem; }
+      .profile-content-inner p { max-width: 100%; }
+      .gallery-preview-head { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+      .gallery-preview-grid {
+        grid-template-columns: 3fr 2fr 2fr;
+        grid-template-rows: 195px 215px 165px;
+      }
+      .gallery-preview-item:nth-child(1) { grid-column: 1 / span 2; grid-row: 1; }
+      .gallery-preview-item:nth-child(2) { grid-column: 3;           grid-row: 1; }
+      .gallery-preview-item:nth-child(3) { grid-column: 1;           grid-row: 2; }
+      .gallery-preview-item:nth-child(4) { grid-column: 2 / span 2;  grid-row: 2; }
+      .gallery-preview-item:nth-child(5) { grid-column: 1 / span 2;  grid-row: 3; }
+      .gallery-preview-item:nth-child(6) { grid-column: 3;           grid-row: 3; display: block; }
+      .works-new-head { grid-template-columns: 1fr; }
+      .works-new-head-img { order: -1; }
+      .works-item { grid-template-columns: 160px 1fr; gap: 1.5rem; }
+      .service-grid-new { grid-template-columns: 1fr; }
+      .contact-dark-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .sec-contact-dark { padding: 4rem 1.5rem 5rem; border-radius: 0; margin: 0; }
+    }
+    @media (max-width: 640px) {
+      .stats-inner { gap: 2rem; }
+      .sec-deco-title { font-size: clamp(2.8rem, 13vw, 4.5rem); }
+      .brand-stmt-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .works-item { grid-template-columns: 1fr; gap: 1rem; }
+      .service-grid-new { grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .blog-grid-new { grid-template-columns: 1fr 1fr; }
+      .blog-card-new--sp { display: block; }
+      .news-item-new { grid-template-columns: 1fr; gap: .3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="index.html" class="logo">RUKA</a>
+    <nav id="nav">
+      <a href="profile.html"><span class="nav-en">Profile</span><span class="nav-ja">RUKAについて</span></a>
+      <a href="gallery.html"><span class="nav-en">Gallery</span><span class="nav-ja">作品集</span></a>
+      <a href="service.html"><span class="nav-en">Service</span><span class="nav-ja">ご依頼について</span></a>
+      <a href="news.html"><span class="nav-en">Blog</span><span class="nav-ja">ブログ</span></a>
+      <a href="faq.html"><span class="nav-en">FAQ</span><span class="nav-ja">よくある質問</span></a>
+      <div class="nav-lang">
+        <button class="lang-sw-btn" data-lang="ja">JP</button>
+        <span class="lang-sw-sep">|</span>
+        <button class="lang-sw-btn" data-lang="en">EN</button>
+      </div>
+      <div class="nav-cta-wrap">
+        <a href="contact.html" class="header-cta-btn header-cta-btn--fill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>お問い合わせ</a>
+      </div>
+    </nav>
+    <div class="header-cta">
+      <a href="contact.html" class="header-cta-btn header-cta-btn--fill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>お問い合わせ</a>
+    </div>
+    <div class="lang-sw">
+      <button class="lang-sw-btn" data-lang="ja">JP</button>
+      <span class="lang-sw-sep">|</span>
+      <button class="lang-sw-btn" data-lang="en">EN</button>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- HERO MV -->
+<section class="hero-mv">
+  <div class="mv-track" id="mvTrack">
+    <div class="mv-panel mv-clone"><img src="images/oyako.jpg"   alt=""></div>
+    <div class="mv-panel"><img src="images/hagaren.jpg" alt="イラスト作品1"></div>
+    <div class="mv-panel"><img src="images/maiko.jpg"   alt="イラスト作品2"></div>
+    <div class="mv-panel"><img src="images/oyako.jpg"   alt="イラスト作品3"></div>
+    <div class="mv-panel mv-clone"><img src="images/hagaren.jpg" alt=""></div>
+  </div>
+  <div class="mv-overlay"></div>
+  <div class="mv-body">
+    <span class="mv-eyebrow">Freelance Illustrator · Osaka, Japan</span>
+    <span class="mv-title">RUKA</span>
+    <span class="mv-sub">イラストで、あなたの世界を描く。</span>
+    <p class="mv-desc">書籍装画 / キャラクターデザイン / 広告ビジュアル</p>
+  </div>
+  <div class="mv-dots" id="mvDots">
+    <span class="mv-dot active"></span>
+    <span class="mv-dot"></span>
+    <span class="mv-dot"></span>
+  </div>
+  <a href="#profile" class="hero-scroll" aria-label="スクロールして続きを見る">
+    <span class="hero-scroll-text">Scroll</span>
+    <span class="hero-scroll-line"></span>
+  </a>
+</section>
+
+
+<!-- ④ Profile -->
+<section class="sec-profile-top" id="profile">
+
+  <!-- 左：メイン画像（画面端ブリード） -->
+  <div class="profile-main-img">
+    <img src="images/hagaren.jpg" alt="RUKA イラスト作品">
+  </div>
+
+  <!-- 右：テキストコンテンツ -->
+  <div class="profile-content">
+    <div class="profile-content-inner">
+      <span class="eyebrow">Illustrator · 大阪</span>
+      <h2 class="profile-content-title">繊細な線で、<br>想いをかたちに。</h2>
+      <p>大阪を拠点に活動するフリーランスイラストレーター。書籍装画を中心に、広告・ブランディング・キャラクターデザインなど幅広いジャンルのイラストを手がけています。</p>
+      <p>水彩と線画を組み合わせた繊細なタッチが特徴。人物・動物・食べ物など、日常の温かみを大切にした作風で、国内外の出版社や広告代理店から依頼を受けています。</p>
+      <nav class="profile-nav-links">
+        <a href="profile.html" class="profile-nav-link">
+          <div>
+            <div class="profile-nav-link-en">About</div>
+            <div class="profile-nav-link-ja">RUKAについて</div>
+          </div>
+          <span class="profile-nav-link-arrow">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </span>
+        </a>
+        <a href="profile.html#philosophy" class="profile-nav-link">
+          <div>
+            <div class="profile-nav-link-en">Philosophy</div>
+            <div class="profile-nav-link-ja">制作への想い</div>
+          </div>
+          <span class="profile-nav-link-arrow">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </span>
+        </a>
+        <a href="profile.html#career" class="profile-nav-link">
+          <div>
+            <div class="profile-nav-link-en">Career</div>
+            <div class="profile-nav-link-ja">これまでの経歴</div>
+          </div>
+          <span class="profile-nav-link-arrow">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </span>
+        </a>
+      </nav>
+    </div>
+  </div>
+
+</section>
+
+<!-- ⑤ Gallery preview -->
+<section class="sec-gallery-preview" id="gallery">
+  <div class="wrap">
+    <div class="gallery-preview-head">
+      <div class="gallery-preview-head-left">
+        <span class="eyebrow">作品集</span>
+        <h2 class="sec-deco-title">Gallery</h2>
+      </div>
+      <a href="gallery.html" class="circle-more">
+        <span class="circle-more-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+        </span>
+        <span class="circle-more-text">View All</span>
+      </a>
+    </div>
+  </div>
+  <!-- グリッドはフルブリード -->
+  <div class="gallery-preview-grid">
+    <div class="gallery-preview-item"><img src="images/hagaren.jpg" alt="イラスト作品"></div>
+    <div class="gallery-preview-item"><img src="images/maiko.jpg" alt="イラスト作品"></div>
+    <div class="gallery-preview-item"><img src="images/kuma.jpg" alt="イラスト作品"></div>
+    <div class="gallery-preview-item"><img src="images/oyako.jpg" alt="イラスト作品"></div>
+    <div class="gallery-preview-item"><img src="images/cake.jpg" alt="イラスト作品"></div>
+    <div class="gallery-preview-item"><img src="images/kimono.jpg" alt="イラスト作品"></div>
+  </div>
+</section>
+
+<!-- ⑥ Service -->
+<section class="sec-works-new">
+  <div class="wrap">
+    <div class="works-new-head">
+      <div class="works-new-head-text">
+        <span class="eyebrow">ご依頼について</span>
+        <h2 class="sec-deco-title">Service</h2>
+        <h3 class="works-new-subhead">書籍・広告・キャラクター、<br>3つのサービス。</h3>
+        <p>お問い合わせフォームからご依頼を受け付けています。打ち合わせ・お見積もりは無料。制作の流れや料金の目安は詳細ページでご確認いただけます。</p>
+      </div>
+      <div class="works-new-head-img">
+        <img src="images/mado.jpg" alt="制作サービス">
+      </div>
+    </div>
+    <div class="works-list">
+
+      <div class="works-item">
+        <div class="works-item-img"><img src="images/hagaren.jpg" alt="どんな企画に使われるか"></div>
+        <div>
+          <span class="works-item-cat">01 · Use Cases</span>
+          <h3 class="works-item-title">どんな企画に使われるか</h3>
+          <p class="works-item-body-text">書籍の表紙・挿絵、ブランドのキャラクター制作、ポスター・パッケージ・SNS広告ビジュアルなど。「文字だけでは伝わらない世界観」を絵で表現したい場面でご活用いただいています。商品パッケージのリニューアルや、新ブランドの立ち上げ時にもご相談が多いです。</p>
+          <a href="service.html#usecases" class="link-more">More <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
+
+      <div class="works-item">
+        <div class="works-item-img"><img src="images/kuma.jpg" alt="依頼が多い内容と取引先"></div>
+        <div>
+          <span class="works-item-cat">02 · Clients</span>
+          <h3 class="works-item-title">依頼が多い内容と取引先</h3>
+          <p class="works-item-body-text">出版社・編集プロダクションからの装画・挿絵依頼、食品・コスメブランドのパッケージイラスト、SNSインフルエンサーやYouTuberのアイコン・グッズ制作など。個人のお客様から大手企業まで、幅広くお受けしています。</p>
+          <a href="service.html#clients" class="link-more">More <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
+
+      <div class="works-item">
+        <div class="works-item-img"><img src="images/kimono.jpg" alt="受注から納品までの流れ"></div>
+        <div>
+          <span class="works-item-cat">03 · Process</span>
+          <h3 class="works-item-title">受注から納品までの流れ</h3>
+          <p class="works-item-body-text">お問い合わせ → ヒアリング・お見積もり（無料）→ ラフ案のご確認 → 本制作 → 修正対応 → 納品、の流れが基本です。ラフ段階でのご意見を反映しながら進めるので、イメージと大きくズレることはほとんどありません。</p>
+          <a href="service.html#process" class="link-more">More <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ⑦ Blog -->
+<section class="sec-blog">
+  <div class="wrap">
+    <div class="blog-new-head">
+      <span class="eyebrow">ブログ</span>
+      <h2 class="sec-deco-title">Blog</h2>
+    </div>
+    <div class="blog-grid-new">
+
+      <a href="news.html" class="blog-card-new">
+        <div class="blog-card-new-thumb"><img src="images/mado.jpg" alt=""></div>
+        <div class="blog-card-new-meta">
+          <span class="blog-card-new-cat">制作ノート</span>
+          <span>2026.05.20</span>
+        </div>
+        <p class="blog-card-new-title">アナログとデジタルの使い分け、わたしの場合</p>
+      </a>
+
+      <a href="news.html" class="blog-card-new">
+        <div class="blog-card-new-thumb"><img src="images/hagaren.jpg" alt=""></div>
+        <div class="blog-card-new-meta">
+          <span class="blog-card-new-cat">お仕事のこと</span>
+          <span>2026.04.15</span>
+        </div>
+        <p class="blog-card-new-title">書籍装画のお仕事について、よくある質問にお答えします</p>
+      </a>
+
+      <a href="news.html" class="blog-card-new">
+        <div class="blog-card-new-thumb"><img src="images/cake.jpg" alt=""></div>
+        <div class="blog-card-new-meta">
+          <span class="blog-card-new-cat">画材・ツール</span>
+          <span>2026.03.08</span>
+        </div>
+        <p class="blog-card-new-title">最近のお気に入り画材——水彩の新色を試してみた</p>
+      </a>
+
+      <a href="news.html" class="blog-card-new blog-card-new--sp">
+        <div class="blog-card-new-thumb"><img src="images/kuma.jpg" alt=""></div>
+        <div class="blog-card-new-meta">
+          <span class="blog-card-new-cat">制作ノート</span>
+          <span>2026.02.22</span>
+        </div>
+        <p class="blog-card-new-title">キャラクターデザインで大切にしていること</p>
+      </a>
+
+    </div>
+    <div class="blog-more">
+      <a href="news.html" class="link-more">More <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<!-- ⑨ Contact (dark) -->
+<section class="sec-contact-dark">
+  <div class="wrap">
+    <div class="contact-dark-inner">
+
+      <div class="contact-dark-left">
+        <span class="eyebrow">お問い合わせ</span>
+        <h2 class="sec-deco-title">Contact</h2>
+        <p class="contact-dark-left-body">イラスト制作のご依頼・ご相談はお気軽にどうぞ。<br>書籍装画・キャラクターデザイン・広告ビジュアルなど、<br>あらゆるご要望に対応しています。</p>
+        <a href="contact.html" class="contact-circle-btn">
+          <span class="contact-circle-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </span>
+          <span class="contact-circle-label">Contact</span>
+        </a>
+      </div>
+
+      <div class="contact-dark-items">
+        <a href="contact.html" class="contact-dark-item">
+          <div class="contact-dark-item-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div>
+            <h3>ご依頼・お見積もりはこちら</h3>
+            <p>書籍装画・キャラクターデザインなどのご相談はお問い合わせフォームより。</p>
+          </div>
+        </a>
+        <a href="service.html" class="contact-dark-item">
+          <div class="contact-dark-item-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <div>
+            <h3>制作の流れ・料金を確認する</h3>
+            <p>ご依頼からお届けまでのステップ、料金の目安をご覧いただけます。</p>
+          </div>
+        </a>
+        <a href="faq.html" class="contact-dark-item">
+          <div class="contact-dark-item-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div>
+            <h3>よくある質問を見る</h3>
+            <p>納期・修正・著作権などよくあるご質問にお答えします。</p>
+          </div>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<footer>
+  <div class="wrap">
+
+    <!-- 上段：ロゴ＋ナビ -->
+    <div class="ft-top">
+      <div>
+        <a href="index.html" class="ft-logo-link">RUKA</a>
+        <p class="ft-tagline">Illustration Works<br>書籍・広告・キャラクターデザイン<br>Osaka, Japan</p>
+      </div>
+      <div>
+        <div class="ft-nav-links">
+          <a href="index.html">トップ</a>
+          <a href="profile.html">About</a>
+          <a href="gallery.html">Gallery</a>
+          <a href="service.html">Service</a>
+          <a href="news.html">Blog</a>
+          <a href="faq.html">FAQ</a>
+          <a href="contact.html">お問い合わせ</a>
+        </div>
+        <div class="ft-sub-links">
+          <a href="download.html">資料ダウンロード</a>
+          <a href="privacy.html">プライバシーポリシー</a>
+        </div>
+      </div>
+    </div>
+
+    <hr class="ft-sep">
+
+    <!-- 中段：3カラム -->
+    <div class="ft-cols">
+
+      <div>
+        <p class="ft-col-name">RUKA</p>
+        <p class="ft-col-info">フリーランスイラストレーター<br>Osaka, Japan</p>
+        <div class="ft-sns-row">
+          <a href="https://www.instagram.com/imagen_luca?igsh=OGRra2x5NGVub3J4&utm_source=qr" class="ft-sns-icon" aria-label="Instagram" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+          <a href="https://www.threads.com/@imagen_luca?igshid=NTc4MTIwNjQ2YQ==" class="ft-sns-icon" aria-label="Threads" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.702 1.31 2.807 3.171 3.288 5.529l-2.498.368c-.79-3.971-3.277-5.996-7.617-6.006-2.915.015-5.084.925-6.45 2.706C4.48 6.094 3.76 8.499 3.737 11.99c.024 3.494.745 5.9 2.006 7.299 1.367 1.782 3.537 2.69 6.455 2.706 2.668-.012 4.52-.707 5.62-2.113.813-1.026 1.254-2.537 1.314-4.494a9.856 9.856 0 0 1-.65.032c-3.46 0-6.16-1.165-7.495-3.108-.753-1.08-1.057-2.4-.884-3.82.196-1.614.94-3.01 2.074-3.926 1.09-.882 2.483-1.297 4.044-1.2 1.877.12 3.34.965 4.22 2.398.69 1.124.99 2.635.89 4.494l-.005.091c-.042.966-.227 1.845-.555 2.62-.47 1.115-1.218 1.944-2.218 2.46-.56.29-1.17.467-1.82.525l-.022.002c-.172.015-.345.022-.52.022-1.71 0-3.234-.593-4.41-1.715.126 1.04.44 1.838.95 2.367.655.693 1.674 1.038 3.029 1.026.65-.006 1.22-.094 1.7-.26l.826 2.334c-.764.27-1.637.42-2.597.432zm.314-10.065c.144.023.285.034.42.034.51 0 .952-.152 1.316-.452.508-.419.837-1.068.978-1.932.101-.621.094-1.214-.022-1.715-.181-.779-.61-1.315-1.274-1.592a3.226 3.226 0 0 0-1.093-.196c-.85 0-1.567.275-2.076.796-.508.52-.793 1.265-.848 2.21-.06 1.003.184 1.828.706 2.39.484.52 1.197.813 2.057.857l-.164-.4z"/></svg></a>
+        </div>
+      </div>
+
+      <div>
+        <p class="ft-col-name">ご依頼・お問い合わせ</p>
+        <p class="ft-col-info">ご依頼はお問い合わせフォームより<br>お気軽にご連絡ください。</p>
+        <ul class="ft-col-links">
+          <li><a href="contact.html">お問い合わせフォーム</a></li>
+          <li><a href="service.html">制作の流れ・料金</a></li>
+          <li><a href="download.html">資料ダウンロード</a></li>
+          <li><a href="faq.html">よくある質問</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="ft-col-name">制作サービス</p>
+        <ul class="ft-col-links">
+          <li><a href="gallery.html">書籍装画・挿絵</a></li>
+          <li><a href="gallery.html">キャラクターデザイン</a></li>
+          <li><a href="gallery.html">広告・ブランディング</a></li>
+          <li><a href="profile.html">プロフィール</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- 下段：戻るボタン＋著作権 -->
+    <div class="ft-bar">
+      <a href="#" class="ft-back-top" aria-label="ページトップへ">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+      </a>
+      <p class="ft-copy">COPYRIGHT © 2026 Ruka Illustration Works. All rights reserved.</p>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+  const btn = document.getElementById('menuBtn');
+  const nav = document.getElementById('nav');
+  const overlay = document.createElement('div');
+  overlay.className = 'nav-overlay';
+  document.body.appendChild(overlay);
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'nav-close-btn';
+  closeBtn.setAttribute('aria-label', 'メニューを閉じる');
+  closeBtn.innerHTML = '<span></span><span></span>';
+  nav.prepend(closeBtn);
+  function closeMenu() {
+    btn.classList.remove('open');
+    nav.classList.remove('open');
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  btn.addEventListener('click', () => {
+    const isOpen = nav.classList.toggle('open');
+    btn.classList.toggle('open', isOpen);
+    overlay.classList.toggle('open', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+  overlay.addEventListener('click', closeMenu);
+  closeBtn.addEventListener('click', closeMenu);
+
+
+  // Scroll animation
+  (function(){
+    const SELS = [
+      '.eyebrow', '.section-title', '.s-head',
+      '.contact-sub-h2', '.work-cat', '.work-title', '.work-meta-row',
+      '.works-grid > *', '.pickup-grid > *', '.latest-grid > *', '.posts-grid > *',
+      '.visual-sub-grid > *', '.visual-main',
+      '.card', '.blog-card', '.ex-card', '.cdl-card', '.pg-card', '.pg-card',
+      '.step',
+      'details',
+      '.contact-sub-grid > div',
+      '.contact-steps', '.contact-form-head', '.contact-form-body',
+      '.detail-body section', '.data-table',
+      '.ft-grid', '.cta-band', '.cta-inline',
+      '.pagination-grid > *',
+      '.sidebar-sec',
+      '.faq-toc', '.faq-cat',
+      '.featured-card', '.featured-body',
+      '.about-photo', '.philosophy-grid', '.career-item',
+      '.stats-strip', '.price-row', '.dl-card',
+      '.blog-layout > *', '.blog-sidebar > *'
+    ].join(',');
+    const all = Array.from(document.querySelectorAll(SELS));
+    const els = all.filter(el => !el.closest('.hero-full, .page-hero, .hero-scroll, .header-cta, header, .lang-sw'));
+    els.forEach(el => el.classList.add('anim'));
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('anim-in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.07 });
+    els.forEach(el => io.observe(el));
+  })();
+
+  // Language switcher
+  (function() {
+    const langBtns = document.querySelectorAll('.lang-sw-btn');
+    const saved = localStorage.getItem('lang') || 'ja';
+    document.documentElement.lang = saved;
+    document.body.classList.toggle('lang-en', saved === 'en');
+    langBtns.forEach(b => b.classList.toggle('active', b.dataset.lang === saved));
+    langBtns.forEach(b => b.addEventListener('click', () => {
+      const l = b.dataset.lang;
+      localStorage.setItem('lang', l);
+      document.documentElement.lang = l;
+      document.body.classList.toggle('lang-en', l === 'en');
+      langBtns.forEach(x => x.classList.toggle('active', x.dataset.lang === l));
+    }));
+  })();
+
+  // ── SP HERO SLIDER（ピーク型・両端クローン無限ループ）──
+  (function(){
+    const track = document.getElementById('mvTrack');
+    const dots  = document.querySelectorAll('#mvDots .mv-dot');
+    if (!track) return;
+    // パネル配列: [oyako-clone(0), hagaren(1), maiko(2), oyako(3), hagaren-clone(4)]
+    const real = 3, gap = 12;
+    let cur = 1, timer; // 1 からスタート
+
+    function isSP() { return window.innerWidth <= 960; }
+
+    function calcX(i) {
+      const panelW = window.innerWidth * 0.85;
+      const offset = (window.innerWidth - panelW) / 2;
+      return offset - i * (panelW + gap);
+    }
+
+    function setDot(i) {
+      // real index: 1→0dot, 2→1dot, 3→2dot
+      dots.forEach((d, idx) => d.classList.toggle('active', idx === (i - 1)));
+    }
+
+    function go(i) {
+      cur = i;
+      if (isSP()) {
+        track.style.transform = `translateX(${calcX(cur)}px)`;
+      } else {
+        track.style.transform = '';
+      }
+      setDot(cur < 1 ? 3 : cur > 3 ? 1 : cur);
+    }
+
+    track.addEventListener('transitionend', function() {
+      if (cur === real + 1) {
+        // 末尾クローン → 本体1へ
+        track.style.transition = 'none';
+        cur = 1;
+        track.style.transform = `translateX(${calcX(1)}px)`;
+        requestAnimationFrame(() => requestAnimationFrame(() => { track.style.transition = ''; }));
+        setDot(1);
+      }
+    });
+
+    function start() {
+      go(1);
+      clearInterval(timer);
+      timer = setInterval(function() {
+        if (isSP()) go(cur + 1);
+      }, 3500);
+    }
+
+    start();
+    window.addEventListener('resize', function() { go(cur); });
+  })();
+</script>
+</body>
+</html>

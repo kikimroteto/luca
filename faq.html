@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ — RUKA Illustration Works</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .sec-faq { padding: 4rem 0 7rem; }
+    .sec-deco-title { font-size: clamp(1.8rem, 3.5vw, 2.8rem); }
+
+
+    /* ── カテゴリ見出し ── */
+    .faq-list { border-top: none; }
+    .faq-inner { max-width: 760px; margin: 0 auto; }
+    .faq-cat {
+      display: flex;
+      align-items: center;
+      gap: .85rem;
+      font-size: .92rem;
+      letter-spacing: .04em;
+      color: var(--ink);
+      font-weight: 600;
+      padding: 4rem 0 1.25rem;
+      border-bottom: 1px solid var(--border);
+      margin: 0;
+    }
+    .faq-cat:first-child { padding-top: 0; }
+    .faq-cat-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: var(--accent-bg);
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* ── Q バッジ ── */
+    .faq-list summary {
+      padding: 1.3rem 0;
+      font-size: .9rem;
+      justify-content: flex-start;
+      align-items: flex-start;
+      gap: .8rem;
+    }
+    .faq-list summary::before {
+      content: 'Q';
+      font-family: 'Poppins', sans-serif;
+      font-size: .62rem;
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--accent-bg);
+      min-width: 22px; height: 22px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: .12rem;
+    }
+    .faq-list summary::after {
+      content: '+';
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--accent);
+      flex-shrink: 0;
+      width: 30px; height: 30px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      transition: transform .3s, border-color .2s, background .2s;
+      margin-left: auto;
+    }
+    .faq-list details[open] summary::after {
+      transform: rotate(45deg);
+      border-color: var(--accent);
+      background: var(--accent-bg);
+    }
+
+    /* ── A バッジ ── */
+    .faq-ans {
+      position: relative;
+      padding: .85rem 0 1.75rem 3rem;
+      font-size: .88rem;
+      color: var(--ink2);
+      line-height: 2;
+    }
+    .faq-ans::before {
+      content: 'A';
+      position: absolute;
+      left: 0; top: .9rem;
+      font-family: 'Poppins', sans-serif;
+      font-size: .62rem;
+      font-weight: 700;
+      color: var(--ink2);
+      background: var(--bg-muted);
+      min-width: 22px; height: 22px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 700px) {
+      .sec-faq { padding: 4rem 0 4rem; }
+      .faq-toc-list a { padding: .9rem .4rem; font-size: .72rem; gap: .3rem; }
+      .faq-toc-count { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="index.html" class="logo">RUKA</a>
+    <nav id="nav">
+      <a href="profile.html"><span class="nav-en">Profile</span><span class="nav-ja">RUKAについて</span></a>
+      <a href="gallery.html"><span class="nav-en">Gallery</span><span class="nav-ja">作品集</span></a>
+      <a href="service.html"><span class="nav-en">Service</span><span class="nav-ja">ご依頼について</span></a>
+      <a href="news.html"><span class="nav-en">Blog</span><span class="nav-ja">ブログ</span></a>
+      <a href="faq.html" class="active"><span class="nav-en">FAQ</span><span class="nav-ja">よくある質問</span></a>
+      <div class="nav-lang">
+        <button class="lang-sw-btn" data-lang="ja">JP</button>
+        <span class="lang-sw-sep">|</span>
+        <button class="lang-sw-btn" data-lang="en">EN</button>
+      </div>
+      <div class="nav-cta-wrap">
+        <a href="contact.html" class="header-cta-btn header-cta-btn--fill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>お問い合わせ</a>
+      </div>
+    </nav>
+    <div class="header-cta">
+      <a href="contact.html" class="header-cta-btn header-cta-btn--fill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>お問い合わせ</a>
+    </div>
+    <div class="lang-sw">
+      <button class="lang-sw-btn" data-lang="ja">JP</button>
+      <span class="lang-sw-sep">|</span>
+      <button class="lang-sw-btn" data-lang="en">EN</button>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="page-hero">
+  <img class="page-hero-bg" src="images/umi.jpg" alt="">
+  <div class="wrap">
+    <h1 class="mv-en">FAQ</h1>
+    <p class="mv-ja">よくある質問</p>
+  </div>
+</div>
+
+
+<!-- FAQ -->
+<section class="sec-faq">
+  <div class="wrap">
+    <div class="faq-inner">
+      <div class="faq-list">
+
+        <h3 class="faq-cat" id="faq-seisaku"><span class="faq-cat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></span>制作について</h3>
+        <details>
+          <summary>納期はどのくらいですか？</summary>
+          <div class="faq-ans">内容によってまちまちですので、内容・点数・希望の納期をお問い合わせフォームよりお知らせください。制作そのものの日数に加えて、やり取り・確認・修正の日数もかかります。</div>
+        </details>
+        <details>
+          <summary>納品形態はどのようなものですか？</summary>
+          <div class="faq-ans">データで納品します。主に .ai（Adobe Illustrator形式）でのご納品ですが、ご要望に応じて .jpg・.png・.pdf 等への書き出しも対応します。</div>
+        </details>
+        <details>
+          <summary>専門的な知識が必要な図解を依頼できますか？</summary>
+          <div class="faq-ans">概ね可能なことが多いですので、お気軽にご相談ください。ただし内容の監修はお客様側にてお願いしています。専門知識があるわけではないため、資料や参考文献などをご提供いただき、それに基づいて制作する流れになります。</div>
+        </details>
+        <details>
+          <summary>○○さん風の絵柄で制作できますか？</summary>
+          <div class="faq-ans">基本的にはお断りしています。ご事情がある場合はご相談ください。</div>
+        </details>
+        <details>
+          <summary>ポートフォリオに載っていない人物画やキャラクター画なども依頼できますか？</summary>
+          <div class="faq-ans">守備範囲外のものについては、外部クリエイターを活用してご対応できる場合があります。必ずお引き受けできるとは限りませんが、いちどご相談ください。</div>
+        </details>
+        <details>
+          <summary>個人ですが、依頼できますか？</summary>
+          <div class="faq-ans">現在は事業者様とのお取引専門とさせていただいております。申し訳ありません。</div>
+        </details>
+
+        <h3 class="faq-cat" id="faq-kakaku"><span class="faq-cat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></span>価格について</h3>
+        <details>
+          <summary>依頼した際の価格が知りたい</summary>
+          <div class="faq-ans">資料内に参考価格を掲載しています。<a href="download.html" style="color:var(--accent);">資料ダウンロードページ</a>からダウンロードのうえご覧ください。</div>
+        </details>
+        <details>
+          <summary>価格はサイズによって決まりますか？</summary>
+          <div class="faq-ans">サイズというより、手間によって決まります。</div>
+        </details>
+        <details>
+          <summary>修正には費用がかかりますか？</summary>
+          <div class="faq-ans">通常発生する2回程度の修正は費用に含まれています。制作途中で前提が変わった・当初と違う要望が後から増えた・ほとんど作り直しになった、などの場合は追加費用をいただきます。</div>
+        </details>
+        <details>
+          <summary>できあがったイラストを見てから値段を決めることはできますか？</summary>
+          <div class="faq-ans">基本的にはお断りしています。あらかじめ価格にご同意いただいてから着手します。<br><br>ただし例外として、ご依頼点数が概ね50点を超える場合に、ランク形式の精算方法にも対応しています。<br><br>※ランク形式……あらかじめイラストの難易度によって数種類の価格を設定しておき、完了後にイラストごとにランクを振り分けて最終的な請求額を決定する方式です。書籍・教科書等の制作進行と並行してイラストを制作していく場合などに対応しています。</div>
+        </details>
+
+        <h3 class="faq-cat" id="faq-renraku"><span class="faq-cat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>連絡・打ち合わせについて</h3>
+        <details>
+          <summary>郵便物の送付先について</summary>
+          <div class="faq-ans">郵便は記載の住所で届きますが、宛名には必ず屋号を添えてください。受け取りにサインが必要なもの（宅急便・小包等）はすぐに受け取れない場合がありますので、お送り前にご一報ください。<br><br>お客様からご訪問いただく場合は、利用しているコワーキングスペースをご案内します。必ず事前のご予約をお願いします（記載の住所には常駐していません）。</div>
+        </details>
+        <details>
+          <summary>チャットツールでの連絡は可能ですか？</summary>
+          <div class="faq-ans">可能です。Google Chat・Teams・Slack を利用しています。</div>
+        </details>
+        <details>
+          <summary>オンラインミーティングは可能ですか？</summary>
+          <div class="faq-ans">可能です。</div>
+        </details>
+        <details>
+          <summary>訪問でのミーティングは可能ですか？</summary>
+          <div class="faq-ans">受発注が確定している場合、こちらから訪問してのミーティングも可能です。内容によっては交通費・会議費をいただく場合があります。<br><br>お客様からご訪問いただく場合は、利用しているコワーキングスペースをご案内します。必ず事前のご予約をお願いします。</div>
+        </details>
+        <details>
+          <summary>メールが届かない</summary>
+          <div class="faq-ans">大半の場合、迷惑メールとして処理されています。当サイトのドメインからメールを受信できるよう、メールソフトの設定をご確認ください。設定の詳細についてはご対応しかねますのでご了承ください。</div>
+        </details>
+
+        <h3 class="faq-cat" id="faq-kenri"><span class="faq-cat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>権利について</h3>
+        <details>
+          <summary>二次利用は可能ですか？</summary>
+          <div class="faq-ans">納品した制作物は、特にお申し出のない限り、ご依頼時に提示された範囲でのみご利用いただけます。範囲外でのご利用は二次使用料（制作費の50%）をいただくことで可能です。</div>
+        </details>
+        <details>
+          <summary>依頼した制作物の著作権は譲渡されますか？</summary>
+          <div class="faq-ans">著作権の譲渡はしていません。納品した制作物の利用範囲についてご希望がある場合は、あらかじめご相談ください。</div>
+        </details>
+
+        <h3 class="faq-cat" id="faq-shiryo"><span class="faq-cat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>検討用資料・プレゼン用の画像の利用について</h3>
+        <details>
+          <summary>作品集（ポートフォリオ）をもらえますか？</summary>
+          <div class="faq-ans"><a href="download.html" style="color:var(--accent);">資料ダウンロードページ</a>からPDF版のポートフォリオをダウンロードいただけます。ご検討にどうぞご活用ください。</div>
+        </details>
+        <details>
+          <summary>.ai / .psd などの元データ（高解像度データ）をプレゼン資料に使いたい</summary>
+          <div class="faq-ans">ご依頼前の方への元データのお渡しはできません。元のご依頼主へのご迷惑になりますのでご理解ください。資料作成には、ダウンロード資料やスクリーンショットをご活用ください。</div>
+        </details>
+        <details>
+          <summary>当サイトの画像を利用したい</summary>
+          <div class="faq-ans">当サイトに掲載している画像やそのスクリーンショットは、ご依頼を検討される場合に限り自由にご利用いただけます。なお画像にはウォーターマークが入っています。</div>
+        </details>
+
+      </div>
+    </div><!-- /faq-inner -->
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+
+    <div class="ft-top">
+      <div>
+        <a href="index.html" class="ft-logo-link">RUKA</a>
+        <p class="ft-tagline">Illustration Works<br>書籍・広告・キャラクターデザイン<br>Osaka, Japan</p>
+      </div>
+      <div>
+        <div class="ft-nav-links">
+          <a href="index.html">トップ</a>
+          <a href="profile.html">Profile</a>
+          <a href="gallery.html">Gallery</a>
+          <a href="service.html">Service</a>
+          <a href="news.html">Blog</a>
+          <a href="faq.html">FAQ</a>
+          <a href="contact.html">お問い合わせ</a>
+        </div>
+        <div class="ft-sub-links">
+          <a href="download.html">資料ダウンロード</a>
+          <a href="privacy.html">プライバシーポリシー</a>
+        </div>
+      </div>
+    </div>
+
+    <hr class="ft-sep">
+
+    <div class="ft-cols">
+
+      <div>
+        <p class="ft-col-name">RUKA</p>
+        <p class="ft-col-info">フリーランスイラストレーター<br>Osaka, Japan</p>
+        <div class="ft-sns-row">
+          <a href="https://www.instagram.com/imagen_luca?igsh=OGRra2x5NGVub3J4&utm_source=qr" class="ft-sns-icon" aria-label="Instagram" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+          <a href="https://www.threads.com/@imagen_luca?igshid=NTc4MTIwNjQ2YQ==" class="ft-sns-icon" aria-label="Threads" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.702 1.31 2.807 3.171 3.288 5.529l-2.498.368c-.79-3.971-3.277-5.996-7.617-6.006-2.915.015-5.084.925-6.45 2.706C4.48 6.094 3.76 8.499 3.737 11.99c.024 3.494.745 5.9 2.006 7.299 1.367 1.782 3.537 2.69 6.455 2.706 2.668-.012 4.52-.707 5.62-2.113.813-1.026 1.254-2.537 1.314-4.494a9.856 9.856 0 0 1-.65.032c-3.46 0-6.16-1.165-7.495-3.108-.753-1.08-1.057-2.4-.884-3.82.196-1.614.94-3.01 2.074-3.926 1.09-.882 2.483-1.297 4.044-1.2 1.877.12 3.34.965 4.22 2.398.69 1.124.99 2.635.89 4.494l-.005.091c-.042.966-.227 1.845-.555 2.62-.47 1.115-1.218 1.944-2.218 2.46-.56.29-1.17.467-1.82.525l-.022.002c-.172.015-.345.022-.52.022-1.71 0-3.234-.593-4.41-1.715.126 1.04.44 1.838.95 2.367.655.693 1.674 1.038 3.029 1.026.65-.006 1.22-.094 1.7-.26l.826 2.334c-.764.27-1.637.42-2.597.432zm.314-10.065c.144.023.285.034.42.034.51 0 .952-.152 1.316-.452.508-.419.837-1.068.978-1.932.101-.621.094-1.214-.022-1.715-.181-.779-.61-1.315-1.274-1.592a3.226 3.226 0 0 0-1.093-.196c-.85 0-1.567.275-2.076.796-.508.52-.793 1.265-.848 2.21-.06 1.003.184 1.828.706 2.39.484.52 1.197.813 2.057.857l-.164-.4z"/></svg></a>
+        </div>
+      </div>
+
+      <div>
+        <p class="ft-col-name">ご依頼・お問い合わせ</p>
+        <p class="ft-col-info">ご依頼はお問い合わせフォームより<br>お気軽にご連絡ください。</p>
+        <ul class="ft-col-links">
+          <li><a href="contact.html">お問い合わせフォーム</a></li>
+          <li><a href="service.html">制作の流れ・料金</a></li>
+          <li><a href="download.html">資料ダウンロード</a></li>
+          <li><a href="faq.html">よくある質問</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="ft-col-name">制作サービス</p>
+        <ul class="ft-col-links">
+          <li><a href="gallery.html">書籍装画・挿絵</a></li>
+          <li><a href="gallery.html">キャラクターデザイン</a></li>
+          <li><a href="gallery.html">広告・ブランディング</a></li>
+          <li><a href="profile.html">RUKAについて</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="ft-bar">
+      <a href="#" class="ft-back-top" aria-label="ページトップへ">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+      </a>
+      <p class="ft-copy">COPYRIGHT © 2026 Ruka Illustration Works. All rights reserved.</p>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+  const btn = document.getElementById('menuBtn');
+  const nav = document.getElementById('nav');
+  const overlay = document.createElement('div');
+  overlay.className = 'nav-overlay';
+  document.body.appendChild(overlay);
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'nav-close-btn';
+  closeBtn.setAttribute('aria-label', 'メニューを閉じる');
+  closeBtn.innerHTML = '<span></span><span></span>';
+  nav.prepend(closeBtn);
+  function closeMenu() {
+    btn.classList.remove('open');
+    nav.classList.remove('open');
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  btn.addEventListener('click', () => {
+    const isOpen = nav.classList.toggle('open');
+    btn.classList.toggle('open', isOpen);
+    overlay.classList.toggle('open', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+  overlay.addEventListener('click', closeMenu);
+  closeBtn.addEventListener('click', closeMenu);
+
+
+  // Scroll animation
+  (function(){
+    const SELS = [
+      '.eyebrow', '.section-title', '.s-head',
+      '.contact-sub-h2', '.work-cat', '.work-title', '.work-meta-row',
+      '.works-grid > *', '.pickup-grid > *', '.latest-grid > *', '.posts-grid > *',
+      '.visual-sub-grid > *', '.visual-main',
+      '.card', '.blog-card', '.ex-card', '.cdl-card', '.pg-card', '.pg-card',
+      '.step',
+      'details',
+      '.contact-sub-grid > div',
+      '.contact-steps', '.contact-form-head', '.contact-form-body',
+      '.detail-body section', '.data-table',
+      '.ft-grid', '.cta-band', '.cta-inline',
+      '.pagination-grid > *',
+      '.sidebar-sec',
+      '.faq-toc', '.faq-cat',
+      '.featured-card', '.featured-body',
+      '.about-photo', '.philosophy-grid', '.career-item',
+      '.stats-strip', '.price-row', '.dl-card',
+      '.blog-layout > *', '.blog-sidebar > *'
+    ].join(',');
+    const all = Array.from(document.querySelectorAll(SELS));
+    const els = all.filter(el => !el.closest('.hero-full, .page-hero, .hero-scroll, .header-cta, header, .lang-sw'));
+    els.forEach(el => el.classList.add('anim'));
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('anim-in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.07 });
+    els.forEach(el => io.observe(el));
+  })();
+
+// Language switcher
+  (function() {
+    const langBtns = document.querySelectorAll('.lang-sw-btn');
+    const saved = localStorage.getItem('lang') || 'ja';
+    document.documentElement.lang = saved;
+    document.body.classList.toggle('lang-en', saved === 'en');
+    langBtns.forEach(b => b.classList.toggle('active', b.dataset.lang === saved));
+    langBtns.forEach(b => b.addEventListener('click', () => {
+      const l = b.dataset.lang;
+      localStorage.setItem('lang', l);
+      document.documentElement.lang = l;
+      document.body.classList.toggle('lang-en', l === 'en');
+      langBtns.forEach(x => x.classList.toggle('active', x.dataset.lang === l));
+    }));
+  })();
+</script>
+</body>
+</html>

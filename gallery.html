@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery — RUKA Illustration Works</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── WORKS GRID ── */
+    .sec-works { padding: 7rem 0; }
+    .sec-deco-title { font-family: var(--font-ja); font-size: clamp(1.5rem, 2.8vw, 2.2rem); font-weight: 700; letter-spacing: .05em; line-height: 1.3; }
+    .filter-bar { display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 3.5rem; }
+
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .w-item { cursor: pointer; }
+    .w-thumb {
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      background: var(--bg-muted);
+      position: relative;
+    }
+    .w-thumb svg,
+    .w-thumb img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform .5s; }
+    .w-item:hover .w-thumb svg,
+    .w-item:hover .w-thumb img { transform: scale(1.04); }
+    .w-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(28,25,23,0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .3s;
+    }
+    .w-overlay span {
+      font-size: .7rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0);
+      border: 1px solid rgba(255,255,255,0);
+      padding: .65rem 1.75rem;
+      transition: all .3s;
+    }
+    .w-item:hover .w-overlay { background: rgba(28,25,23,.5); }
+    .w-item:hover .w-overlay span { color: #fff; border-color: rgba(255,255,255,.55); }
+    .w-info  { padding: 1rem 0 0; }
+    .w-cat   { font-family: 'Poppins', sans-serif; font-size: .63rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: .25rem; }
+    .w-title { font-size: .9rem; color: var(--ink); }
+    .w-year  { font-family: 'Poppins', sans-serif; font-size: .72rem; color: var(--ink3); margin-top: .1rem; }
+    .w-item.hidden { display: none; }
+
+    /* ── EXAMPLES ── */
+    .sec-examples {
+      padding: 7rem 0;
+      background: var(--bg-soft);
+      border-top: 1px solid var(--border);
+    }
+    .examples-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      margin-top: 4rem;
+    }
+    .ex-card {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 2rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg);
+      padding: 2rem;
+      align-items: start;
+      transition: box-shadow .3s;
+      overflow: hidden;
+    }
+    .ex-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,.06); }
+    .ex-thumb { aspect-ratio: 1; background: var(--bg-muted); overflow: hidden; }
+    .ex-thumb svg { width: 100%; height: 100%; display: block; }
+    .ex-label { font-family: 'Poppins', sans-serif; font-size: .62rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); margin-bottom: .5rem; }
+    .ex-title { font-size: .95rem; font-weight: 400; margin-bottom: .65rem; }
+    .ex-desc  { font-size: .82rem; color: var(--ink2); line-height: 1.9; }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.88);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s;
+    }
+    .lightbox.open { opacity: 1; pointer-events: all; }
+    .lightbox-img {
+      max-width: 90vw;
+      max-height: 88vh;
+      object-fit: contain;
+      border-radius: 4px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 1.25rem; right: 1.5rem;
+      background: none; border: none;
+      color: rgba(255,255,255,.8);
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 300;
+      cursor: pointer;
+      line-height: 1;
+      transition: color .2s;
+    }
+    .lightbox-close:hover { color: #fff; }
+    .w-item { cursor: pointer; }
+
+    @media (max-width: 900px) {
+      .works-grid    { grid-template-columns: 1fr 1fr; }
+      .examples-grid { grid-template-columns: 1fr; }
+      .ex-card       { grid-template-columns: 110px 1fr; gap: 1.25rem; }
+    }
+    @media (max-width: 560px) {
+      .works-grid { grid-template-columns: 1fr 1fr; gap: .75rem; }
+      .ex-card    { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="index.html" class="logo">RUKA</a>
+    <nav id="nav">
+      <a href="profile.html"><span class="nav-en">Profile</span><span class="nav-ja">RUKAについて</span></a>
+      <a href="gallery.html" class="active"><span class="nav-en">Gallery</span><span class="nav-ja">作品集</span></a>
+      <a href="service.html"><span class="nav-en">Service</span><span class="nav-ja">ご依頼について</span></a>
+      <a href="news.html"><span class="nav-en">Blog</span><span class="nav-ja">ブログ</span></a>
+      <a href="faq.html"><span class="nav-en">FAQ</span><span class="nav-ja">よくある質問</span></a>
+      <div class="nav-lang">
+        <button class="lang-sw-btn" data-lang="ja">JP</button>
+        <span class="lang-sw-sep">|</span>
+        <button class="lang-sw-btn" data-lang="en">EN</button>
+      </div>
+      <div class="nav-cta-wrap">
+        <a href="contact.html" class="header-cta-btn header-cta-btn--fill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>お問い合わせ</a>
+      </div>
+    </nav>
+    <div class="header-cta">
+      <a href="contact.html" class="header-cta-btn header-cta-btn--fill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>お問い合わせ</a>
+    </div>
+    <div class="lang-sw">
+      <button class="lang-sw-btn" data-lang="ja">JP</button>
+      <span class="lang-sw-sep">|</span>
+      <button class="lang-sw-btn" data-lang="en">EN</button>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="page-hero">
+  <img class="page-hero-bg" src="images/kuma.jpg" alt="">
+  <div class="wrap">
+    <h1 class="mv-en">Gallery</h1>
+    <p class="mv-ja">作品集</p>
+  </div>
+</div>
+
+
+<!-- WORKS -->
+<section class="sec-works">
+  <div class="wrap">
+    <div class="filter-bar">
+      <button class="tag active" data-cat="all">All</button>
+      <button class="tag" data-cat="book">書籍装画</button>
+      <button class="tag" data-cat="brand">ブランディング</button>
+      <button class="tag" data-cat="chara">キャラクター</button>
+      <button class="tag" data-cat="ad">広告</button>
+      <button class="tag" data-cat="goods">グッズ</button>
+    </div>
+
+    <div class="works-grid" id="worksGrid">
+
+      <div class="w-item" data-cat="book">
+        <div class="w-thumb">
+          <img src="images/cake.jpg" alt="小説「夜と花と静寂」装画">
+          <div class="w-overlay"><span>View</span></div>
+        </div>
+        <div class="w-info">
+          <p class="w-cat">Book Cover</p>
+          <p class="w-title">小説「夜と花と静寂」装画</p>
+          <p class="w-year">2025</p>
+        </div>
+      </div>
+
+      <div class="w-item" data-cat="brand">
+        <div class="w-thumb">
+          <img src="images/hagaren.jpg" alt="〇〇ブランド ビジュアルアイデンティティ">
+          <div class="w-overlay"><span>View</span></div>
+        </div>
+        <div class="w-info">
+          <p class="w-cat">Branding</p>
+          <p class="w-title">〇〇ブランド ビジュアルアイデンティティ</p>
+          <p class="w-year">2025</p>
+        </div>
+      </div>
+
+      <div class="w-item" data-cat="goods">
+        <div class="w-thumb">
+          <img src="images/mado.jpg" alt="コスメブランド パッケージデザイン">
+          <div class="w-overlay"><span>View</span></div>
+        </div>
+        <div class="w-info">
+          <p class="w-cat">Package</p>
+          <p class="w-title">コスメブランド パッケージデザイン</p>
+          <p class="w-year">2024</p>
+        </div>
+      </div>
+
+      <div class="w-item" data-cat="book">
+        <div class="w-thumb">
+          <img src="images/maiko.jpg" alt="エッセイ集「朝の珈琲と独り言」装画">
+          <div class="w-overlay"><span>View</span></div>
+        </div>
+        <div class="w-info">
+          <p class="w-cat">Book Cover</p>
+          <p class="w-title">エッセイ集「朝の珈琲と独り言」装画</p>
+          <p class="w-year">2024</p>
+        </div>
+      </div>
+
+      <div class="w-item" data-cat="ad">
+        <div class="w-thumb">
+          <img src="images/umi.jpg" alt="春のキャンペーン ビジュアルイラスト">
+          <div class="w-overlay"><span>View</span></div>
+        </div>
+        <div class="w-info">
+          <p class="w-cat">Ad Visual</p>
+          <p class="w-title">春のキャンペーン ビジュアルイラスト</p>
+          <p class="w-year">2024</p>
+        </div>
+      </div>
+
+      <div class="w-item" data-cat="chara">
+        <div class="w-thumb">
+          <img src="images/oyako.jpg" alt="カフェブランド マスコットキャラクター">
+          <div class="w-overlay"><span>View</span></div>
+        </div>
+        <div class="w-info">
+          <p class="w-cat">Character</p>
+          <p class="w-title">カフェブランド マスコットキャラクター</p>
+          <p class="w-year">2023</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 作品グリッド後のCTA -->
+    <div class="cta-inline" style="margin-top:3rem;">
+      <p><strong>「この作品に近い雰囲気で制作したい」</strong><br>具体的なイメージがなくても大丈夫。まずはご相談ください。</p>
+      <a href="contact.html" class="btn btn-fill btn-sm" style="white-space:nowrap;">この実績について相談する</a>
+    </div>
+
+    <div style="text-align:center;margin-top:2rem;">
+      <p style="font-size:.82rem;color:var(--ink3);">掲載は一部のみです。詳細・未掲載実績はお問い合わせください。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ILLUSTRATION EXAMPLES -->
+<section class="sec-examples">
+  <div class="wrap">
+    <div class="s-head">
+      <span class="eyebrow">Illustration Examples</span>
+      <span class="sec-deco-title">イラスト制作例</span>
+      <p style="font-size:.88rem;color:var(--ink2);margin-top:1rem;max-width:500px;">ジャンルごとの制作例です。ご依頼の参考にご覧ください。</p>
+    </div>
+    <div class="examples-grid">
+
+      <div class="ex-card">
+        <div class="ex-thumb">
+          <img src="images/hato.jpg" alt="" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <div>
+          <p class="ex-label">書籍装画</p>
+          <h3 class="ex-title">小説・詩集の表紙</h3>
+          <p class="ex-desc">文芸・エッセイ・児童書など各ジャンルに対応。作品世界を読み込み、読者の手が伸びる一枚に。</p>
+        </div>
+      </div>
+
+      <div class="ex-card">
+        <div class="ex-thumb">
+          <img src="images/kimono.jpg" alt="" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <div>
+          <p class="ex-label">ブランディング</p>
+          <h3 class="ex-title">ブランドビジュアル</h3>
+          <p class="ex-desc">メインビジュアル・パターン素材・SNS用コンテンツ。Web・印刷両対応。</p>
+        </div>
+      </div>
+
+      <div class="ex-card">
+        <div class="ex-thumb">
+          <img src="images/kuma.jpg" alt="" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <div>
+          <p class="ex-label">キャラクターデザイン</p>
+          <h3 class="ex-title">オリジナルキャラクター</h3>
+          <p class="ex-desc">ブランドマスコット・SNSアイコン・グッズ展開まで対応。設定資料も作成します。</p>
+        </div>
+      </div>
+
+      <div class="ex-card">
+        <div class="ex-thumb">
+          <img src="images/hagaren.jpg" alt="" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <div>
+          <p class="ex-label">広告・商業</p>
+          <h3 class="ex-title">広告・Webバナー</h3>
+          <p class="ex-desc">季節キャンペーン・商品広告・SNSビジュアル。ブランドトーンに合わせてご提案します。</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+
+    <div class="ft-top">
+      <div>
+        <a href="index.html" class="ft-logo-link">RUKA</a>
+        <p class="ft-tagline">Illustration Works<br>書籍・広告・キャラクターデザイン<br>Osaka, Japan</p>
+      </div>
+      <div>
+        <div class="ft-nav-links">
+          <a href="index.html">トップ</a>
+          <a href="profile.html">Profile</a>
+          <a href="gallery.html">Gallery</a>
+          <a href="service.html">Service</a>
+          <a href="news.html">Blog</a>
+          <a href="faq.html">FAQ</a>
+          <a href="contact.html">お問い合わせ</a>
+        </div>
+        <div class="ft-sub-links">
+          <a href="download.html">資料ダウンロード</a>
+          <a href="privacy.html">プライバシーポリシー</a>
+        </div>
+      </div>
+    </div>
+
+    <hr class="ft-sep">
+
+    <div class="ft-cols">
+
+      <div>
+        <p class="ft-col-name">RUKA</p>
+        <p class="ft-col-info">フリーランスイラストレーター<br>Osaka, Japan</p>
+        <div class="ft-sns-row">
+          <a href="https://www.instagram.com/imagen_luca?igsh=OGRra2x5NGVub3J4&utm_source=qr" class="ft-sns-icon" aria-label="Instagram" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+          <a href="https://www.threads.com/@imagen_luca?igshid=NTc4MTIwNjQ2YQ==" class="ft-sns-icon" aria-label="Threads" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.702 1.31 2.807 3.171 3.288 5.529l-2.498.368c-.79-3.971-3.277-5.996-7.617-6.006-2.915.015-5.084.925-6.45 2.706C4.48 6.094 3.76 8.499 3.737 11.99c.024 3.494.745 5.9 2.006 7.299 1.367 1.782 3.537 2.69 6.455 2.706 2.668-.012 4.52-.707 5.62-2.113.813-1.026 1.254-2.537 1.314-4.494a9.856 9.856 0 0 1-.65.032c-3.46 0-6.16-1.165-7.495-3.108-.753-1.08-1.057-2.4-.884-3.82.196-1.614.94-3.01 2.074-3.926 1.09-.882 2.483-1.297 4.044-1.2 1.877.12 3.34.965 4.22 2.398.69 1.124.99 2.635.89 4.494l-.005.091c-.042.966-.227 1.845-.555 2.62-.47 1.115-1.218 1.944-2.218 2.46-.56.29-1.17.467-1.82.525l-.022.002c-.172.015-.345.022-.52.022-1.71 0-3.234-.593-4.41-1.715.126 1.04.44 1.838.95 2.367.655.693 1.674 1.038 3.029 1.026.65-.006 1.22-.094 1.7-.26l.826 2.334c-.764.27-1.637.42-2.597.432zm.314-10.065c.144.023.285.034.42.034.51 0 .952-.152 1.316-.452.508-.419.837-1.068.978-1.932.101-.621.094-1.214-.022-1.715-.181-.779-.61-1.315-1.274-1.592a3.226 3.226 0 0 0-1.093-.196c-.85 0-1.567.275-2.076.796-.508.52-.793 1.265-.848 2.21-.06 1.003.184 1.828.706 2.39.484.52 1.197.813 2.057.857l-.164-.4z"/></svg></a>
+        </div>
+      </div>
+
+      <div>
+        <p class="ft-col-name">ご依頼・お問い合わせ</p>
+        <p class="ft-col-info">ご依頼はお問い合わせフォームより<br>お気軽にご連絡ください。</p>
+        <ul class="ft-col-links">
+          <li><a href="contact.html">お問い合わせフォーム</a></li>
+          <li><a href="service.html">制作の流れ・料金</a></li>
+          <li><a href="download.html">資料ダウンロード</a></li>
+          <li><a href="faq.html">よくある質問</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="ft-col-name">制作サービス</p>
+        <ul class="ft-col-links">
+          <li><a href="gallery.html">書籍装画・挿絵</a></li>
+          <li><a href="gallery.html">キャラクターデザイン</a></li>
+          <li><a href="gallery.html">広告・ブランディング</a></li>
+          <li><a href="profile.html">RUKAについて</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="ft-bar">
+      <a href="#" class="ft-back-top" aria-label="ページトップへ">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+      </a>
+      <p class="ft-copy">COPYRIGHT © 2026 Ruka Illustration Works. All rights reserved.</p>
+    </div>
+
+  </div>
+</footer>
+
+<div id="lightbox" class="lightbox">
+  <button class="lightbox-close" id="lightboxClose">&#215;</button>
+  <img id="lightboxImg" class="lightbox-img" src="" alt="">
+</div>
+
+<script>
+  const btn = document.getElementById('menuBtn');
+  const nav = document.getElementById('nav');
+  const overlay = document.createElement('div');
+  overlay.className = 'nav-overlay';
+  document.body.appendChild(overlay);
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'nav-close-btn';
+  closeBtn.setAttribute('aria-label', 'メニューを閉じる');
+  closeBtn.innerHTML = '<span></span><span></span>';
+  nav.prepend(closeBtn);
+  function closeMenu() {
+    btn.classList.remove('open');
+    nav.classList.remove('open');
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  btn.addEventListener('click', () => {
+    const isOpen = nav.classList.toggle('open');
+    btn.classList.toggle('open', isOpen);
+    overlay.classList.toggle('open', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+  overlay.addEventListener('click', closeMenu);
+  closeBtn.addEventListener('click', closeMenu);
+
+
+  // Scroll animation
+  (function(){
+    const SELS = [
+      '.eyebrow', '.section-title', '.s-head',
+      '.contact-sub-h2', '.work-cat', '.work-title', '.work-meta-row',
+      '.works-grid > *', '.pickup-grid > *', '.latest-grid > *', '.posts-grid > *',
+      '.visual-sub-grid > *', '.visual-main',
+      '.card', '.blog-card', '.ex-card', '.cdl-card', '.pg-card', '.pg-card',
+      '.step',
+      'details',
+      '.contact-sub-grid > div',
+      '.contact-steps', '.contact-form-head', '.contact-form-body',
+      '.detail-body section', '.data-table',
+      '.ft-grid', '.cta-band', '.cta-inline',
+      '.pagination-grid > *',
+      '.sidebar-sec',
+      '.faq-toc', '.faq-cat',
+      '.featured-card', '.featured-body',
+      '.about-photo', '.philosophy-grid', '.career-item',
+      '.stats-strip', '.price-row', '.dl-card',
+      '.blog-layout > *', '.blog-sidebar > *'
+    ].join(',');
+    const all = Array.from(document.querySelectorAll(SELS));
+    const els = all.filter(el => !el.closest('.hero-full, .page-hero, .hero-scroll, .header-cta, header, .lang-sw'));
+    els.forEach(el => el.classList.add('anim'));
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('anim-in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.07 });
+    els.forEach(el => io.observe(el));
+  })();
+  // Lightbox
+  document.querySelectorAll('.w-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const img = item.querySelector('.w-thumb img');
+      if (!img) return;
+      document.getElementById('lightboxImg').src = img.src;
+      document.getElementById('lightboxImg').alt = img.alt;
+      document.getElementById('lightbox').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+  document.getElementById('lightbox').addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeLightbox();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  document.querySelectorAll('.filter-bar .tag').forEach(tag => {
+    tag.addEventListener('click', function() {
+      document.querySelectorAll('.filter-bar .tag').forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+      const cat = this.dataset.cat;
+      document.querySelectorAll('#worksGrid .w-item').forEach(item => {
+        item.classList.toggle('hidden', cat !== 'all' && item.dataset.cat !== cat);
+      });
+    });
+  });
+</script>
+</body>
+</html>

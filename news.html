@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog — RUKA Illustration Works</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── BLOG: sec-deco-title を小さめに上書き ── */
+    .sec-deco-title { font-size: clamp(1.8rem, 3.5vw, 2.8rem); }
+
+    /* ── BLOG LAYOUT ── */
+    .blog-wrap { padding: 5rem 0 6rem; }
+    .blog-layout {
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    /* ── PICKUP GRID ── */
+    .pickup-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.2rem;
+      margin-top: 3rem;
+    }
+
+    /* ── POST CARD ── */
+    .blog-card {
+      display: block;
+      text-decoration: none;
+      color: var(--ink);
+    }
+    .blog-card-thumb {
+      aspect-ratio: 3/2;
+      overflow: hidden;
+      border-radius: 8px;
+      background: var(--bg-muted);
+      margin-bottom: 1rem;
+    }
+    .blog-card-thumb img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .5s;
+    }
+    .blog-card:hover .blog-card-thumb img { transform: scale(1.04); }
+    .blog-card-meta {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      font-family: 'Poppins', sans-serif;
+      font-size: .6rem;
+      letter-spacing: .1em;
+      color: var(--ink3);
+      margin-bottom: .5rem;
+    }
+    .blog-card-cat { color: var(--accent); }
+    .blog-card-title {
+      font-size: .92rem;
+      color: var(--ink);
+      line-height: 1.75;
+      transition: color .2s;
+    }
+    .blog-card:hover .blog-card-title { color: var(--accent); }
+
+    /* ── SIDEBAR ── */
+    .blog-sidebar { position: sticky; top: calc(var(--hh) + 2.5rem); }
+    .sidebar-sec { margin-bottom: 2.8rem; }
+    .sidebar-heading {
+      font-family: 'Poppins', sans-serif;
+      font-size: .58rem;
+      font-weight: 600;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      padding-bottom: .7rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0;
+      display: block;
+    }
+    .cat-list { list-style: none; }
+    .cat-list li { border-bottom: 1px solid var(--border); }
+    .cat-list a {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: .75rem 0;
+      font-size: .82rem;
+      color: var(--ink2);
+      transition: color .2s;
+    }
+    .cat-list a:hover { color: var(--accent); }
+    .cat-list a::after {
+      content: '';
+      display: inline-block;
+      width: 14px; height: 14px;
+      background-image: url("data:image/svg+xml,%3Csvg width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23aaa49e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 12h14M12 5l7 7-7 7'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      transition: transform .2s;
+      flex-shrink: 0;
+    }
+    .cat-list a:hover::after { transform: translateX(3px); }
+
+    /* Search */
+    .search-form {
+      display: flex;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: .8rem;
+    }
+    .search-form input {
+      flex: 1;
+      padding: .7rem .9rem;
+      border: none;
+      font-family: var(--font-ja);
+      font-size: .82rem;
+      outline: none;
+      background: var(--bg);
+      color: var(--ink);
+    }
+    .search-form input::placeholder { color: var(--ink3); }
+    .search-form input:focus { background: var(--bg-soft); }
+    .search-form button {
+      padding: .7rem 1rem;
+      background: var(--accent);
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      display: grid;
+      place-items: center;
+      transition: background .2s;
+    }
+    .search-form button:hover { background: var(--accent-dk); }
+
+    /* ── LATEST ── */
+    .latest-wrap {
+      padding: 5rem 0 7rem;
+      border-top: 1px solid var(--border);
+    }
+    .latest-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3rem;
+    }
+    .view-all {
+      font-family: 'Poppins', sans-serif;
+      font-size: .68rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--ink);
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      border-bottom: 1px solid var(--ink);
+      padding-bottom: .15rem;
+      transition: color .2s, border-color .2s;
+    }
+    .view-all:hover { color: var(--accent); border-color: var(--accent); }
+    .view-all svg { transition: transform .2s; }
+    .view-all:hover svg { transform: translateX(3px); }
+    .latest-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      .blog-layout { grid-template-columns: 1fr; gap: 3.5rem; }
+      .blog-sidebar { position: static; }
+      .latest-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .pickup-grid { grid-template-columns: 1fr; }
+      .latest-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="index.html" class="logo">RUKA</a>
+    <nav id="nav">
+      <a href="profile.html"><span class="nav-en">Profile</span><span class="nav-ja">RUKAについて</span></a>
+      <a href="gallery.html"><span class="nav-en">Gallery</span><span class="nav-ja">作品集</span></a>
+      <a href="service.html"><span class="nav-en">Service</span><span class="nav-ja">ご依頼について</span></a>
+      <a href="news.html" class="active"><span class="nav-en">Blog</span><span class="nav-ja">ブログ</span></a>
+      <a href="faq.html"><span class="nav-en">FAQ</span><span class="nav-ja">よくある質問</span></a>
+      <div class="nav-lang">
+        <button class="lang-sw-btn" data-lang="ja">JP</button>
+        <span class="lang-sw-sep">|</span>
+        <button class="lang-sw-btn" data-lang="en">EN</button>
+      </div>
+      <div class="nav-cta-wrap">
+        <a href="contact.html" class="header-cta-btn header-cta-btn--fill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>お問い合わせ</a>
+      </div>
+    </nav>
+    <div class="header-cta">
+      <a href="contact.html" class="header-cta-btn header-cta-btn--fill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>お問い合わせ</a>
+    </div>
+    <div class="lang-sw">
+      <button class="lang-sw-btn" data-lang="ja">JP</button>
+      <span class="lang-sw-sep">|</span>
+      <button class="lang-sw-btn" data-lang="en">EN</button>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="page-hero">
+  <img class="page-hero-bg" src="images/oyako.jpg" alt="">
+  <div class="wrap">
+    <h1 class="mv-en">Blog</h1>
+    <p class="mv-ja">ブログ</p>
+  </div>
+</div>
+
+
+<!-- PICKUP + SIDEBAR -->
+<section class="blog-wrap">
+  <div class="wrap">
+    <div class="blog-layout">
+
+      <!-- MAIN: PICKUP -->
+      <div>
+        <span class="eyebrow">注目の記事</span>
+        <h2 class="sec-deco-title">Blog</h2>
+        <div class="pickup-grid">
+
+          <a href="#" class="blog-card">
+            <div class="blog-card-thumb"><img src="images/mado.jpg" alt="アナログとデジタルの使い分け、わたしの場合"></div>
+            <div class="blog-card-meta"><span class="blog-card-cat">制作ノート</span><span>2026.05.20</span></div>
+            <p class="blog-card-title">アナログとデジタルの使い分け、わたしの場合</p>
+          </a>
+
+          <a href="#" class="blog-card">
+            <div class="blog-card-thumb"><img src="images/hagaren.jpg" alt="書籍装画のお仕事について、よくある質問にお答えします"></div>
+            <div class="blog-card-meta"><span class="blog-card-cat">お仕事のこと</span><span>2026.04.15</span></div>
+            <p class="blog-card-title">書籍装画のお仕事について、よくある質問にお答えします</p>
+          </a>
+
+          <a href="#" class="blog-card">
+            <div class="blog-card-thumb"><img src="images/cake.jpg" alt="最近のお気に入り画材——水彩の新色を試してみた"></div>
+            <div class="blog-card-meta"><span class="blog-card-cat">画材・ツール</span><span>2026.03.08</span></div>
+            <p class="blog-card-title">最近のお気に入り画材——水彩の新色を試してみた</p>
+          </a>
+
+          <a href="#" class="blog-card">
+            <div class="blog-card-thumb"><img src="images/kuma.jpg" alt="キャラクターデザインで大切にしていること"></div>
+            <div class="blog-card-meta"><span class="blog-card-cat">制作ノート</span><span>2026.02.22</span></div>
+            <p class="blog-card-title">キャラクターデザインで大切にしていること</p>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- SIDEBAR -->
+      <aside class="blog-sidebar">
+
+        <div class="sidebar-sec">
+          <p class="sidebar-heading">CATEGORY</p>
+          <ul class="cat-list">
+            <li><a href="#">制作ノート</a></li>
+            <li><a href="#">画材・ツール</a></li>
+            <li><a href="#">お仕事のこと</a></li>
+            <li><a href="#">日常</a></li>
+          </ul>
+        </div>
+
+        <div class="sidebar-sec">
+          <p class="sidebar-heading">SEARCH</p>
+          <form class="search-form" role="search">
+            <input type="search" placeholder="記事を探す" aria-label="記事を検索">
+            <button type="submit" aria-label="検索">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+            </button>
+          </form>
+        </div>
+
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- LATEST -->
+<section class="latest-wrap">
+  <div class="wrap">
+    <div class="latest-head">
+      <div>
+        <span class="eyebrow">新着記事</span>
+        <h2 class="sec-deco-title" style="margin-bottom:0;">Latest</h2>
+      </div>
+      <a href="#" class="view-all">View All <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+    <div class="latest-grid">
+
+      <a href="#" class="blog-card">
+        <div class="blog-card-thumb"><img src="images/oyako.jpg" alt="イラストレーターの作業環境——2026年版デスクまわり紹介"></div>
+        <div class="blog-card-meta"><span class="blog-card-cat">日常</span><span>2026.01.30</span></div>
+        <p class="blog-card-title">イラストレーターの作業環境——2026年版デスクまわり紹介</p>
+      </a>
+
+      <a href="#" class="blog-card">
+        <div class="blog-card-thumb"><img src="images/maiko.jpg" alt="フリーランスになって5年——振り返りと今後のこと"></div>
+        <div class="blog-card-meta"><span class="blog-card-cat">お仕事のこと</span><span>2025.12.28</span></div>
+        <p class="blog-card-title">フリーランスになって5年——振り返りと今後のこと</p>
+      </a>
+
+      <a href="#" class="blog-card">
+        <div class="blog-card-thumb"><img src="images/kimono.jpg" alt="制作の参考にしている画家たち——お気に入り10選"></div>
+        <div class="blog-card-meta"><span class="blog-card-cat">画材・ツール</span><span>2025.11.14</span></div>
+        <p class="blog-card-title">制作の参考にしている画家たち——お気に入り10選</p>
+      </a>
+
+      <a href="#" class="blog-card">
+        <div class="blog-card-thumb"><img src="images/hato.jpg" alt="依頼から納品まで——わたしの制作フローを公開"></div>
+        <div class="blog-card-meta"><span class="blog-card-cat">制作ノート</span><span>2025.10.05</span></div>
+        <p class="blog-card-title">依頼から納品まで——わたしの制作フローを公開</p>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+
+    <div class="ft-top">
+      <div>
+        <a href="index.html" class="ft-logo-link">RUKA</a>
+        <p class="ft-tagline">Illustration Works<br>書籍・広告・キャラクターデザイン<br>Osaka, Japan</p>
+      </div>
+      <div>
+        <div class="ft-nav-links">
+          <a href="index.html">トップ</a>
+          <a href="profile.html">Profile</a>
+          <a href="gallery.html">Gallery</a>
+          <a href="service.html">Service</a>
+          <a href="news.html">Blog</a>
+          <a href="faq.html">FAQ</a>
+          <a href="contact.html">お問い合わせ</a>
+        </div>
+        <div class="ft-sub-links">
+          <a href="download.html">資料ダウンロード</a>
+          <a href="privacy.html">プライバシーポリシー</a>
+        </div>
+      </div>
+    </div>
+
+    <hr class="ft-sep">
+
+    <div class="ft-cols">
+
+      <div>
+        <p class="ft-col-name">RUKA</p>
+        <p class="ft-col-info">フリーランスイラストレーター<br>Osaka, Japan</p>
+        <div class="ft-sns-row">
+          <a href="https://www.instagram.com/imagen_luca?igsh=OGRra2x5NGVub3J4&utm_source=qr" class="ft-sns-icon" aria-label="Instagram" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+          <a href="https://www.threads.com/@imagen_luca?igshid=NTc4MTIwNjQ2YQ==" class="ft-sns-icon" aria-label="Threads" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.702 1.31 2.807 3.171 3.288 5.529l-2.498.368c-.79-3.971-3.277-5.996-7.617-6.006-2.915.015-5.084.925-6.45 2.706C4.48 6.094 3.76 8.499 3.737 11.99c.024 3.494.745 5.9 2.006 7.299 1.367 1.782 3.537 2.69 6.455 2.706 2.668-.012 4.52-.707 5.62-2.113.813-1.026 1.254-2.537 1.314-4.494a9.856 9.856 0 0 1-.65.032c-3.46 0-6.16-1.165-7.495-3.108-.753-1.08-1.057-2.4-.884-3.82.196-1.614.94-3.01 2.074-3.926 1.09-.882 2.483-1.297 4.044-1.2 1.877.12 3.34.965 4.22 2.398.69 1.124.99 2.635.89 4.494l-.005.091c-.042.966-.227 1.845-.555 2.62-.47 1.115-1.218 1.944-2.218 2.46-.56.29-1.17.467-1.82.525l-.022.002c-.172.015-.345.022-.52.022-1.71 0-3.234-.593-4.41-1.715.126 1.04.44 1.838.95 2.367.655.693 1.674 1.038 3.029 1.026.65-.006 1.22-.094 1.7-.26l.826 2.334c-.764.27-1.637.42-2.597.432zm.314-10.065c.144.023.285.034.42.034.51 0 .952-.152 1.316-.452.508-.419.837-1.068.978-1.932.101-.621.094-1.214-.022-1.715-.181-.779-.61-1.315-1.274-1.592a3.226 3.226 0 0 0-1.093-.196c-.85 0-1.567.275-2.076.796-.508.52-.793 1.265-.848 2.21-.06 1.003.184 1.828.706 2.39.484.52 1.197.813 2.057.857l-.164-.4z"/></svg></a>
+        </div>
+      </div>
+
+      <div>
+        <p class="ft-col-name">ご依頼・お問い合わせ</p>
+        <p class="ft-col-info">ご依頼はお問い合わせフォームより<br>お気軽にご連絡ください。</p>
+        <ul class="ft-col-links">
+          <li><a href="contact.html">お問い合わせフォーム</a></li>
+          <li><a href="service.html">制作の流れ・料金</a></li>
+          <li><a href="download.html">資料ダウンロード</a></li>
+          <li><a href="faq.html">よくある質問</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="ft-col-name">制作サービス</p>
+        <ul class="ft-col-links">
+          <li><a href="gallery.html">書籍装画・挿絵</a></li>
+          <li><a href="gallery.html">キャラクターデザイン</a></li>
+          <li><a href="gallery.html">広告・ブランディング</a></li>
+          <li><a href="profile.html">RUKAについて</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="ft-bar">
+      <a href="#" class="ft-back-top" aria-label="ページトップへ">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+      </a>
+      <p class="ft-copy">COPYRIGHT © 2026 Ruka Illustration Works. All rights reserved.</p>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+  const btn = document.getElementById('menuBtn');
+  const nav = document.getElementById('nav');
+  const overlay = document.createElement('div');
+  overlay.className = 'nav-overlay';
+  document.body.appendChild(overlay);
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'nav-close-btn';
+  closeBtn.setAttribute('aria-label', 'メニューを閉じる');
+  closeBtn.innerHTML = '<span></span><span></span>';
+  nav.prepend(closeBtn);
+  function closeMenu() {
+    btn.classList.remove('open');
+    nav.classList.remove('open');
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  btn.addEventListener('click', () => {
+    const isOpen = nav.classList.toggle('open');
+    btn.classList.toggle('open', isOpen);
+    overlay.classList.toggle('open', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+  overlay.addEventListener('click', closeMenu);
+  closeBtn.addEventListener('click', closeMenu);
+
+
+  // Scroll animation
+  (function(){
+    const SELS = [
+      '.eyebrow', '.section-title', '.s-head',
+      '.contact-sub-h2', '.work-cat', '.work-title', '.work-meta-row',
+      '.works-grid > *', '.pickup-grid > *', '.latest-grid > *', '.posts-grid > *',
+      '.visual-sub-grid > *', '.visual-main',
+      '.card', '.blog-card', '.ex-card', '.cdl-card', '.pg-card', '.pg-card',
+      '.step',
+      'details',
+      '.contact-sub-grid > div',
+      '.contact-steps', '.contact-form-head', '.contact-form-body',
+      '.detail-body section', '.data-table',
+      '.ft-grid', '.cta-band', '.cta-inline',
+      '.pagination-grid > *',
+      '.sidebar-sec',
+      '.faq-toc', '.faq-cat',
+      '.featured-card', '.featured-body',
+      '.about-photo', '.philosophy-grid', '.career-item',
+      '.stats-strip', '.price-row', '.dl-card',
+      '.blog-layout > *', '.blog-sidebar > *'
+    ].join(',');
+    const all = Array.from(document.querySelectorAll(SELS));
+    const els = all.filter(el => !el.closest('.hero-full, .page-hero, .hero-scroll, .header-cta, header, .lang-sw'));
+    els.forEach(el => el.classList.add('anim'));
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('anim-in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.07 });
+    els.forEach(el => io.observe(el));
+  })();
+
+  // Language switcher
+  (function() {
+    const langBtns = document.querySelectorAll('.lang-sw-btn');
+    const saved = localStorage.getItem('lang') || 'ja';
+    document.documentElement.lang = saved;
+    document.body.classList.toggle('lang-en', saved === 'en');
+    langBtns.forEach(b => b.classList.toggle('active', b.dataset.lang === saved));
+    langBtns.forEach(b => b.addEventListener('click', () => {
+      const l = b.dataset.lang;
+      localStorage.setItem('lang', l);
+      document.documentElement.lang = l;
+      document.body.classList.toggle('lang-en', l === 'en');
+      langBtns.forEach(x => x.classList.toggle('active', x.dataset.lang === l));
+    }));
+  })();
+</script>
+</body>
+</html>

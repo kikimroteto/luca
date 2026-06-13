@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service — RUKA Illustration Works</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .sec  { padding: 6rem 0; }
+    .sec-alt { padding: 6rem 0; background: var(--bg-soft); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .sec-body p { font-size: .9rem; color: var(--ink2); line-height: 2.1; margin-bottom: 1rem; }
+    .sec-deco-title { font-family: var(--font-ja); font-size: clamp(1.5rem, 2.8vw, 2.2rem); font-weight: 700; letter-spacing: .05em; line-height: 1.3; }
+
+    /* ── USE CASES ── */
+    .usecase-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+    .usecase-card { border: 1px solid var(--border); border-radius: 8px; padding: 2rem 1.75rem; transition: box-shadow .3s; }
+    .usecase-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,.06); }
+    .usecase-card h3 { font-size: .95rem; font-weight: 400; margin-bottom: .65rem; }
+    .usecase-card p  { font-size: .83rem; color: var(--ink2); line-height: 1.9; }
+
+    /* ── CLIENT ── */
+    .client-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 3.5rem; }
+    .client-col h3 { font-size: .9rem; font-weight: 400; margin-bottom: 1.25rem; padding-bottom: .75rem; border-bottom: 1px solid var(--border); }
+    .client-list { list-style: none; }
+    .client-list li {
+      font-size: .85rem; color: var(--ink2); padding: .55rem 0;
+      border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: .75rem;
+    }
+    .client-list li::before { content: '—'; color: var(--accent); font-family: var(--font-en); }
+
+    /* ── TOUCH ── */
+    .touch-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 3.5rem; }
+    .touch-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .touch-thumb { aspect-ratio: 4/3; background: var(--bg-muted); }
+    .touch-thumb svg { width: 100%; height: 100%; display: block; }
+    .touch-body  { padding: 1.75rem 2rem; }
+    .touch-label { font-family: 'Poppins', sans-serif; font-size: .62rem; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); margin-bottom: .5rem; }
+    .touch-body h3 { font-size: .95rem; font-weight: 400; margin-bottom: .65rem; }
+    .touch-body p  { font-size: .83rem; color: var(--ink2); line-height: 1.9; }
+    .touch-uses { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: .4rem; }
+    .touch-uses span {
+      font-size: .65rem; letter-spacing: .08em; background: var(--bg-soft);
+      border: 1px solid var(--border); padding: .2rem .75rem; color: var(--ink3);
+    }
+
+    /* ── PRICING ── */
+    .pricing-table { width: 100%; border-collapse: collapse; margin-top: 3.5rem; font-size: .88rem; }
+    .pricing-table th {
+      text-align: left; font-family: 'Poppins', sans-serif; font-size: .65rem; letter-spacing: .16em; text-transform: uppercase;
+      color: var(--ink3); font-weight: 500; padding: .75rem 1.5rem;
+      border-bottom: 1px solid var(--border); background: var(--bg-soft);
+    }
+    .pricing-table td { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .pricing-table tr:hover td { background: var(--bg-soft); }
+    .p-name  { font-weight: 400; }
+    .p-desc  { font-size: .82rem; color: var(--ink2); margin-top: .2rem; }
+    .p-price { font-family: var(--font-en); font-size: 1.05rem; white-space: nowrap; }
+    .p-days  { color: var(--ink3); font-size: .82rem; }
+    .pricing-note {
+      margin-top: 1.5rem; font-size: .8rem; color: var(--ink3);
+      line-height: 1.9; padding: 1.25rem 1.5rem; border-left: 2px solid var(--border);
+    }
+
+    /* ── COPYRIGHT ── */
+    .copyright-list { border-top: 1px solid var(--border); margin-top: 3.5rem; }
+    .copyright-item {
+      display: grid; grid-template-columns: 200px 1fr; gap: 2rem;
+      padding: 1.5rem 0; border-bottom: 1px solid var(--border); font-size: .88rem;
+    }
+    .copyright-item .k { color: var(--ink); font-weight: 400; }
+    .copyright-item .v { color: var(--ink2); line-height: 1.9; }
+
+    /* ── NG ── */
+    .ng-list { list-style: none; margin-top: 3.5rem; border-top: 1px solid var(--border); }
+    .ng-list li {
+      display: flex; align-items: baseline; gap: .75rem; padding: 1.25rem 0;
+      border-bottom: 1px solid var(--border); font-size: .88rem; color: var(--ink2); line-height: 1.8;
+    }
+    .ng-list li::before { content: '✕'; color: #b5705a; font-size: .78rem; flex-shrink: 0; }
+
+    /* ── DOWNLOAD ── */
+    .dl-card {
+      display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: center;
+      border: 1px solid var(--border); border-radius: 8px; background: var(--bg); padding: 2rem 2.5rem;
+      margin-top: 1.5rem; transition: box-shadow .3s;
+    }
+    .dl-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,.06); }
+    .dl-card h3 { font-size: .95rem; font-weight: 400; margin-bottom: .4rem; }
+    .dl-card p  { font-size: .82rem; color: var(--ink2); }
+    .dl-meta    { font-size: .72rem; color: var(--ink3); margin-top: .4rem; }
+
+    /* ── CALENDAR ── */
+    .calendar-wrap { margin-top: 3.5rem; border: 1px solid var(--border); background: var(--bg-soft); padding: 3rem; }
+    .calendar-placeholder {
+      text-align: center; padding: 4rem 2rem; color: var(--ink3);
+      font-size: .88rem; line-height: 2; border: 1px dashed var(--border);
+    }
+    .calendar-placeholder strong { display: block; font-size: 1rem; color: var(--ink2); margin-bottom: .5rem; }
+    .cal-legend { display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 2rem; }
+    .cal-legend-item { display: flex; align-items: center; gap: .5rem; font-size: .78rem; color: var(--ink2); }
+    .cal-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .cal-dot-open  { background: #9ab4a4; }
+    .cal-dot-busy  { background: #c4906e; }
+    .cal-dot-close { background: var(--border); }
+
+    /* cta-inline responsive */
+    .step-num { font-family: 'Poppins', sans-serif; font-size: 1.8rem; font-weight: 300; letter-spacing: .05em; }
+    @media (max-width: 700px) {
+      .cta-inline { flex-direction: column; align-items: flex-start; }
+      .step { grid-template-columns: 1fr; gap: .5rem; }
+      .step-num { font-size: 1.6rem; }
+    }
+    @media (max-width: 900px) {
+      .usecase-grid { grid-template-columns: 1fr 1fr; }
+      .client-grid  { grid-template-columns: 1fr; gap: 2rem; }
+      .touch-grid   { grid-template-columns: 1fr; }
+      .copyright-item { grid-template-columns: 1fr; gap: .5rem; }
+      .dl-card      { grid-template-columns: 1fr; }
+      .pricing-table .p-days { display: none; }
+    }
+    @media (max-width: 560px) {
+      .usecase-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="index.html" class="logo">RUKA</a>
+    <nav id="nav">
+      <a href="profile.html"><span class="nav-en">Profile</span><span class="nav-ja">RUKAについて</span></a>
+      <a href="gallery.html"><span class="nav-en">Gallery</span><span class="nav-ja">作品集</span></a>
+      <a href="service.html" class="active"><span class="nav-en">Service</span><span class="nav-ja">ご依頼について</span></a>
+      <a href="news.html"><span class="nav-en">Blog</span><span class="nav-ja">ブログ</span></a>
+      <a href="faq.html"><span class="nav-en">FAQ</span><span class="nav-ja">よくある質問</span></a>
+      <div class="nav-lang">
+        <button class="lang-sw-btn" data-lang="ja">JP</button>
+        <span class="lang-sw-sep">|</span>
+        <button class="lang-sw-btn" data-lang="en">EN</button>
+      </div>
+      <div class="nav-cta-wrap">
+        <a href="contact.html" class="header-cta-btn header-cta-btn--fill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>お問い合わせ</a>
+      </div>
+    </nav>
+    <div class="header-cta">
+      <a href="contact.html" class="header-cta-btn header-cta-btn--fill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>お問い合わせ</a>
+    </div>
+    <div class="lang-sw">
+      <button class="lang-sw-btn" data-lang="ja">JP</button>
+      <span class="lang-sw-sep">|</span>
+      <button class="lang-sw-btn" data-lang="en">EN</button>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="page-hero">
+  <img class="page-hero-bg" src="images/mado.jpg" alt="">
+  <div class="wrap">
+    <h1 class="mv-en">Service</h1>
+    <p class="mv-ja">イラスト制作について</p>
+  </div>
+</div>
+
+
+<!-- どんな企画に用いられるか -->
+<section class="sec" id="usecases">
+  <div class="wrap">
+    <div class="s-head">
+      <span class="eyebrow">Use Cases</span>
+      <span class="sec-deco-title">ご利用シーン</span>
+    </div>
+    <div class="sec-body">
+      <p>書籍・広告・ブランディングなど、さまざまな場面でご活用いただいています。</p>
+    </div>
+    <div class="usecase-grid">
+      <div class="usecase-card">
+        <h3>書籍・出版</h3>
+        <p>小説・エッセイ・詩集などの表紙装画や本文挿絵。出版社・著者・編集プロダクションからのご依頼が多いです。</p>
+      </div>
+      <div class="usecase-card">
+        <h3>広告・キャンペーン</h3>
+        <p>季節キャンペーン・新商品PR・イベント告知などのビジュアル。広告代理店・メーカーからのご依頼が多いです。</p>
+      </div>
+      <div class="usecase-card">
+        <h3>ブランド・パッケージ</h3>
+        <p>商品パッケージ・ブランドビジュアル・ショップツールなど。食品・コスメ・雑貨ブランドからのご依頼が多いです。</p>
+      </div>
+      <div class="usecase-card">
+        <h3>キャラクター・IP</h3>
+        <p>ブランドマスコット・SNSアイコン・グッズ展開など。企業・個人クリエイターからのご依頼が多いです。</p>
+      </div>
+      <div class="usecase-card">
+        <h3>Web・デジタル</h3>
+        <p>Webサイトのビジュアル・アプリのイラスト・SNSコンテンツなど。スタートアップ・Web制作会社からのご依頼が多いです。</p>
+      </div>
+      <div class="usecase-card">
+        <h3>グッズ・ノベルティ</h3>
+        <p>Tシャツ・ポストカード・ステッカー・手帳など。企業ノベルティから同人グッズまで対応しています。</p>
+      </div>
+    </div>
+
+    <!-- 途中CTA① -->
+    <div class="cta-inline">
+      <p><strong>「自分の依頼に合うか分からない」方へ</strong><br>まずはお気軽にご連絡ください。お見積もり・ヒアリングは無料です。</p>
+      <a href="contact.html" class="btn btn-fill btn-sm" style="white-space:nowrap;">無料相談する</a>
+    </div>
+  </div>
+</section>
+
+<!-- 依頼が多い内容・取引先 -->
+<section class="sec-alt" id="clients">
+  <div class="wrap">
+    <div class="s-head">
+      <span class="eyebrow">Clients &amp; Requests</span>
+      <span class="sec-deco-title">取引先・依頼内容</span>
+    </div>
+    <div class="client-grid">
+      <div class="client-col">
+        <h3>よく受ける依頼の内容</h3>
+        <ul class="client-list">
+          <li>書籍（女性向け文芸・エッセイ）の装画</li>
+          <li>食品・コスメブランドのパッケージ・広告</li>
+          <li>Webサービス・アプリのキャラクター・UI用イラスト</li>
+          <li>SNS・Web広告用キャンペーンビジュアル</li>
+          <li>店頭ツール・POPイラスト</li>
+          <li>企業・ブランドのマスコットキャラクター</li>
+          <li>同人誌・個人グッズの表紙・キービジュアル</li>
+        </ul>
+      </div>
+      <div class="client-col">
+        <h3>取引先の業種（多い順）</h3>
+        <ul class="client-list">
+          <li>出版社・編集プロダクション</li>
+          <li>食品・飲料メーカー</li>
+          <li>化粧品・美容ブランド</li>
+          <li>広告代理店</li>
+          <li>Web制作・デジタルエージェンシー</li>
+          <li>アパレル・雑貨ブランド</li>
+          <li>個人（同人・プレゼント用）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- 受注から納品の流れ -->
+<section class="sec-alt" id="process">
+  <div class="wrap">
+    <div class="s-head">
+      <span class="eyebrow">Process</span>
+      <span class="sec-deco-title">制作の流れ</span>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-body">
+          <h3>ご依頼</h3>
+          <p>お問い合わせフォームから必要事項を記入の上、送信ください。お見積書・注文書の発行をもって正式な受注となりますので、フォームへのご送信はお気軽にどうぞ。必要に応じて契約書を作成します。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-body">
+          <h3>制作内容の確認</h3>
+          <p>制作開始前に以下の情報をご用意ください。必要に応じてオンラインミーティングを実施します。</p>
+          <p style="margin-top:.75rem;line-height:2.1;">
+            <strong>使用サイズ</strong>：実際にイラストが掲載・印刷されるサイズ（1点ずつ必要です）<br>
+            <strong>具体的な内容</strong>：何を描くかの指示。落書きレベルの手書きスケッチで構いません<br>
+            <strong>資料</strong>：参考にする図版などがあればご提供ください<br>
+            <strong>文字入れの指示</strong>：入れる文字・使用フォント・文字サイズ・デザイン仕様（文字入れが必要な場合）
+          </p>
+          <p style="margin-top:1rem;padding:1.25rem 1.5rem;border:1px solid var(--border);background:var(--bg-soft);">
+            <strong style="display:block;font-size:.88rem;font-weight:400;margin-bottom:.4rem;">指示書テンプレート</strong>
+            図版イラスト制作の指示書テンプレートをご用意しました。ぜひご活用ください。<br>
+            <a href="#" style="color:var(--accent);text-decoration:underline;font-size:.85rem;">図版指示書テンプレート（Googleスライド）</a>
+          </p>
+          <p style="margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--border);">
+            <strong style="font-weight:400;">専門的・学術的な内容について</strong><br>
+            制作自体はおおよそなんでも対応できますが、当方に専門知識があるわけではないため、ご依頼者様側での監修をお願いいたします。
+          </p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-body">
+          <h3>制作</h3>
+          <p>図版イラストはAdobe Illustratorを基本ツールとして制作します。水彩風イラストの場合は、主にiPad＋Frescoによるデジタル制作です。</p>
+          <p style="margin-top:.5rem;">ラフ画は制作上必要な場合に作成します（完成体を目指す方が効率的な場合は省略することがあります）。制作途中で内容の確認やご判断を求める場合がありますので、ご回答をいただいてから続きに着手します。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-body">
+          <h3>修正</h3>
+          <p>常識的な範囲の修正は費用内で対応します（一般的に2回程度）。依頼時と前提が変わった・最初になかった要望が後から追加された・ほとんど作り直しになるケースでは、追加費用を申し受けます。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">05</div>
+        <div class="step-body">
+          <h3>納品</h3>
+          <p>データで納品します。Dropbox等のファイル共有サービスを使用します。ファイル形式はご要望をお知らせください。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">06</div>
+        <div class="step-body">
+          <h3>お支払い</h3>
+          <p>納品後にご請求書をお送りします。お支払期限は翌月末とさせていただいておりますが、出版のタイミング等その他規定のある場合はお知らせください。</p>
+        </div>
+      </div>
+
+    <div class="cta-inline" style="margin-top:3rem;">
+      <p><strong>参考価格について</strong><br>目安の価格は資料ダウンロードページのPDFに掲載しています。</p>
+      <a href="download.html" class="btn btn-sm" style="white-space:nowrap;">資料をダウンロード →</a>
+    </div>
+  </div>
+</section>
+
+<!-- 使用範囲について -->
+<section class="sec">
+  <div class="wrap">
+    <div class="s-head">
+      <span class="eyebrow">Usage Rights</span>
+      <span class="sec-deco-title">使用範囲について</span>
+    </div>
+    <ul class="client-list" style="margin-top:3.5rem;">
+      <li>ご依頼の際は、使用媒体・期間・目的など、イラストの使用範囲をあわせてお知らせください</li>
+      <li>納品後は、ご依頼時にご提示いただいた範囲内でご使用ください</li>
+      <li>合意した範囲を超えて他媒体等にご利用の場合は、別途二次使用料が発生します</li>
+      <li>著作権の譲渡や著作人格権の包括的な不行使については、原則としてお受けしておりません。ただし、ご依頼者の業務上必要な範囲での改変利用は問題ありません。事前に改変の目的をお知らせいただければ、その都度ご確認いただく必要はありません。</li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- 制作実績公開について -->
+<section class="sec-alt">
+  <div class="wrap">
+    <div class="s-head">
+      <span class="eyebrow">Portfolio</span>
+      <span class="sec-deco-title">実績公開について</span>
+    </div>
+    <ul class="client-list" style="margin-top:3.5rem;">
+      <li>制作した作品は、制作実績としてポートフォリオ等に掲載させていただく場合があります</li>
+      <li>掲載先はRukaのウェブサイト・SNS・ポートフォリオ資料などです</li>
+      <li>ご使用媒体が公開される前に掲載することはありません</li>
+      <li>掲載時期やその他ご要望がある場合は、ご依頼時にお申し付けください</li>
+    </ul>
+  </div>
+</section>
+
+<!-- お引き受けできないこと -->
+<section class="sec">
+  <div class="wrap">
+    <div class="s-head">
+      <span class="eyebrow">Not Available</span>
+      <span class="sec-deco-title">お引き受けできないこと</span>
+    </div>
+    <ul class="ng-list">
+      <li>現在は事業者様からのご依頼のみ承っております。一般の方の個人用途にはご対応しておりません。</li>
+      <li>ポートフォリオに掲載のないタッチでのご依頼は、外部クリエイターとの連携でご対応できる場合があります。まずはご相談ください（よくお問い合わせいただく守備範囲外のスタイルとしては、アニメ・ゲーム系、漫画、似顔絵、児童書向けキャラクターなどがあります）</li>
+      <li>無報酬・格安・コンテスト参加目的のご依頼はお断りしております</li>
+      <li>現在、アナログでの制作（紙・ペン・水彩等）は行っておりません</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+
+    <div class="ft-top">
+      <div>
+        <a href="index.html" class="ft-logo-link">RUKA</a>
+        <p class="ft-tagline">Illustration Works<br>書籍・広告・キャラクターデザイン<br>Osaka, Japan</p>
+      </div>
+      <div>
+        <div class="ft-nav-links">
+          <a href="index.html">トップ</a>
+          <a href="profile.html">Profile</a>
+          <a href="gallery.html">Gallery</a>
+          <a href="service.html">Service</a>
+          <a href="news.html">Blog</a>
+          <a href="faq.html">FAQ</a>
+          <a href="contact.html">お問い合わせ</a>
+        </div>
+        <div class="ft-sub-links">
+          <a href="download.html">資料ダウンロード</a>
+          <a href="privacy.html">プライバシーポリシー</a>
+        </div>
+      </div>
+    </div>
+
+    <hr class="ft-sep">
+
+    <div class="ft-cols">
+
+      <div>
+        <p class="ft-col-name">RUKA</p>
+        <p class="ft-col-info">フリーランスイラストレーター<br>Osaka, Japan</p>
+        <div class="ft-sns-row">
+          <a href="https://www.instagram.com/imagen_luca?igsh=OGRra2x5NGVub3J4&utm_source=qr" class="ft-sns-icon" aria-label="Instagram" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+          <a href="https://www.threads.com/@imagen_luca?igshid=NTc4MTIwNjQ2YQ==" class="ft-sns-icon" aria-label="Threads" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.702 1.31 2.807 3.171 3.288 5.529l-2.498.368c-.79-3.971-3.277-5.996-7.617-6.006-2.915.015-5.084.925-6.45 2.706C4.48 6.094 3.76 8.499 3.737 11.99c.024 3.494.745 5.9 2.006 7.299 1.367 1.782 3.537 2.69 6.455 2.706 2.668-.012 4.52-.707 5.62-2.113.813-1.026 1.254-2.537 1.314-4.494a9.856 9.856 0 0 1-.65.032c-3.46 0-6.16-1.165-7.495-3.108-.753-1.08-1.057-2.4-.884-3.82.196-1.614.94-3.01 2.074-3.926 1.09-.882 2.483-1.297 4.044-1.2 1.877.12 3.34.965 4.22 2.398.69 1.124.99 2.635.89 4.494l-.005.091c-.042.966-.227 1.845-.555 2.62-.47 1.115-1.218 1.944-2.218 2.46-.56.29-1.17.467-1.82.525l-.022.002c-.172.015-.345.022-.52.022-1.71 0-3.234-.593-4.41-1.715.126 1.04.44 1.838.95 2.367.655.693 1.674 1.038 3.029 1.026.65-.006 1.22-.094 1.7-.26l.826 2.334c-.764.27-1.637.42-2.597.432zm.314-10.065c.144.023.285.034.42.034.51 0 .952-.152 1.316-.452.508-.419.837-1.068.978-1.932.101-.621.094-1.214-.022-1.715-.181-.779-.61-1.315-1.274-1.592a3.226 3.226 0 0 0-1.093-.196c-.85 0-1.567.275-2.076.796-.508.52-.793 1.265-.848 2.21-.06 1.003.184 1.828.706 2.39.484.52 1.197.813 2.057.857l-.164-.4z"/></svg></a>
+        </div>
+      </div>
+
+      <div>
+        <p class="ft-col-name">ご依頼・お問い合わせ</p>
+        <p class="ft-col-info">ご依頼はお問い合わせフォームより<br>お気軽にご連絡ください。</p>
+        <ul class="ft-col-links">
+          <li><a href="contact.html">お問い合わせフォーム</a></li>
+          <li><a href="service.html">制作の流れ・料金</a></li>
+          <li><a href="download.html">資料ダウンロード</a></li>
+          <li><a href="faq.html">よくある質問</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="ft-col-name">制作サービス</p>
+        <ul class="ft-col-links">
+          <li><a href="gallery.html">書籍装画・挿絵</a></li>
+          <li><a href="gallery.html">キャラクターデザイン</a></li>
+          <li><a href="gallery.html">広告・ブランディング</a></li>
+          <li><a href="profile.html">RUKAについて</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="ft-bar">
+      <a href="#" class="ft-back-top" aria-label="ページトップへ">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+      </a>
+      <p class="ft-copy">COPYRIGHT © 2026 Ruka Illustration Works. All rights reserved.</p>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+  const btn = document.getElementById('menuBtn');
+  const nav = document.getElementById('nav');
+  const overlay = document.createElement('div');
+  overlay.className = 'nav-overlay';
+  document.body.appendChild(overlay);
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'nav-close-btn';
+  closeBtn.setAttribute('aria-label', 'メニューを閉じる');
+  closeBtn.innerHTML = '<span></span><span></span>';
+  nav.prepend(closeBtn);
+  function closeMenu() {
+    btn.classList.remove('open');
+    nav.classList.remove('open');
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  btn.addEventListener('click', () => {
+    const isOpen = nav.classList.toggle('open');
+    btn.classList.toggle('open', isOpen);
+    overlay.classList.toggle('open', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+  overlay.addEventListener('click', closeMenu);
+  closeBtn.addEventListener('click', closeMenu);
+
+
+  // Scroll animation
+  (function(){
+    const SELS = [
+      '.eyebrow', '.section-title', '.s-head',
+      '.contact-sub-h2', '.work-cat', '.work-title', '.work-meta-row',
+      '.works-grid > *', '.pickup-grid > *', '.latest-grid > *', '.posts-grid > *',
+      '.visual-sub-grid > *', '.visual-main',
+      '.card', '.blog-card', '.ex-card', '.cdl-card', '.pg-card', '.pg-card',
+      '.step',
+      'details',
+      '.contact-sub-grid > div',
+      '.contact-steps', '.contact-form-head', '.contact-form-body',
+      '.detail-body section', '.data-table',
+      '.ft-grid', '.cta-band', '.cta-inline',
+      '.pagination-grid > *',
+      '.sidebar-sec',
+      '.faq-toc', '.faq-cat',
+      '.featured-card', '.featured-body',
+      '.about-photo', '.philosophy-grid', '.career-item',
+      '.stats-strip', '.price-row', '.dl-card',
+      '.blog-layout > *', '.blog-sidebar > *'
+    ].join(',');
+    const all = Array.from(document.querySelectorAll(SELS));
+    const els = all.filter(el => !el.closest('.hero-full, .page-hero, .hero-scroll, .header-cta, header, .lang-sw'));
+    els.forEach(el => el.classList.add('anim'));
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('anim-in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.07 });
+    els.forEach(el => io.observe(el));
+  })();
+
+  // Language switcher
+  (function() {
+    const langBtns = document.querySelectorAll('.lang-sw-btn');
+    const saved = localStorage.getItem('lang') || 'ja';
+    document.documentElement.lang = saved;
+    document.body.classList.toggle('lang-en', saved === 'en');
+    langBtns.forEach(b => b.classList.toggle('active', b.dataset.lang === saved));
+    langBtns.forEach(b => b.addEventListener('click', () => {
+      const l = b.dataset.lang;
+      localStorage.setItem('lang', l);
+      document.documentElement.lang = l;
+      document.body.classList.toggle('lang-en', l === 'en');
+      langBtns.forEach(x => x.classList.toggle('active', x.dataset.lang === l));
+    }));
+  })();
+</script>
+</body>
+</html>

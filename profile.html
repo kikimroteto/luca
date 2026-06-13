@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — RUKA Illustration Works</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── PROFILE ── */
+    .sec-profile { padding: 8rem 0 7rem; }
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 7rem;
+      align-items: start;
+    }
+    .profile-photo {
+      position: sticky;
+      top: calc(var(--hh) + 2.5rem);
+    }
+    .photo-frame {
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      border-radius: 14px;
+      background: var(--bg-muted);
+      margin-bottom: 1.5rem;
+    }
+    .photo-frame img,
+    .photo-frame svg { width: 100%; height: 100%; display: block; object-fit: cover; }
+    .photo-caption { font-size: .78rem; color: var(--ink3); line-height: 1.9; }
+    .photo-caption strong { display: block; font-size: .9rem; color: var(--ink); font-weight: 600; margin-bottom: .3rem; }
+
+    .profile-name {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      font-weight: 600;
+      letter-spacing: .1em;
+      line-height: 1;
+      margin-bottom: .5rem;
+    }
+    .profile-name-ja { font-size: .8rem; color: var(--ink3); letter-spacing: .22em; margin-bottom: 3rem; }
+    .profile-meta { list-style: none; border-top: 1px solid var(--border); margin-bottom: 3rem; }
+    .profile-meta li {
+      display: grid; grid-template-columns: 90px 1fr; gap: 1.25rem;
+      padding: 1rem 0; border-bottom: 1px solid var(--border); font-size: .84rem;
+    }
+    .profile-meta .k {
+      font-family: 'Poppins', sans-serif;
+      font-size: .62rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ink3); padding-top: 2px;
+    }
+    .profile-meta .v { color: var(--ink2); line-height: 1.8; }
+    .profile-text { font-size: .9rem; color: var(--ink2); line-height: 2.2; max-width: 520px; }
+    .profile-text + .profile-text { margin-top: 1.4rem; }
+
+    .snslink { display: inline-flex; align-items: center; gap: .45rem; font-size: .8rem; color: var(--ink2); transition: color .2s; }
+    .snslink:hover { color: var(--accent); }
+    .snslink svg { flex-shrink: 0; }
+
+    /* ── PHILOSOPHY ── */
+    .sec-philosophy { padding: 8rem 0 7rem; background: var(--bg-soft); }
+    .philosophy-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: start;
+      margin-top: 4rem;
+    }
+    .philosophy-body h3 {
+      font-family: var(--font-ja);
+      font-size: clamp(1.4rem, 2.4vw, 2rem);
+      font-weight: 700;
+      line-height: 1.5;
+      margin-bottom: 1.75rem;
+      letter-spacing: .03em;
+    }
+    .philosophy-body h3 em { font-style: normal; color: var(--accent); }
+    .philosophy-body p { font-size: .9rem; color: var(--ink2); line-height: 2.2; }
+    .philosophy-body p + p { margin-top: 1.25rem; }
+
+    /* quote card */
+    .philosophy-quote {
+      background: #fff;
+      border-radius: 14px;
+      padding: 3rem 2.75rem 2.5rem;
+      position: relative;
+      box-shadow: 0 2px 24px rgba(0,0,0,.055);
+    }
+    .philosophy-quote::before {
+      content: '\201C';
+      font-family: 'Poppins', sans-serif;
+      font-size: 6rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--accent);
+      opacity: .18;
+      position: absolute;
+      top: 1.25rem;
+      left: 2rem;
+    }
+    .philosophy-quote p {
+      font-family: var(--font-en);
+      font-size: clamp(1.1rem, 1.9vw, 1.5rem);
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--ink);
+      font-style: italic;
+      position: relative;
+    }
+    .philosophy-quote cite {
+      display: block;
+      font-size: .68rem;
+      color: var(--ink3);
+      margin-top: 1.75rem;
+      font-style: normal;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── CAREER ── */
+    .sec-career { padding: 8rem 0 7rem; }
+    .career-layout {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 6rem;
+      align-items: start;
+    }
+    .career-sticky-head {
+      position: sticky;
+      top: calc(var(--hh) + 3rem);
+    }
+    .career-timeline {
+      position: relative;
+    }
+    .career-timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 10px;
+      bottom: 30px;
+      width: 1px;
+      background: var(--border);
+    }
+    .career-item {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 2rem;
+      align-items: start;
+      padding-bottom: 3rem;
+      position: relative;
+    }
+    .career-item:last-child { padding-bottom: 0; }
+    .career-marker {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 3px;
+    }
+    .career-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--ink);
+      flex-shrink: 0;
+    }
+    .career-year {
+      font-family: 'Poppins', sans-serif;
+      font-size: .85rem;
+      font-weight: 500;
+      color: var(--ink);
+      letter-spacing: .06em;
+      white-space: nowrap;
+    }
+    .career-desc { font-size: .88rem; color: var(--ink2); line-height: 2.1; }
+    .career-desc strong { color: var(--ink); font-weight: 600; display: block; margin-bottom: .3rem; }
+
+    /* ── Design flowthrough ── */
+    .sec-deco-title {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+    }
+
+    @media (max-width: 960px) {
+      .profile-grid    { grid-template-columns: 1fr; gap: 3rem; }
+      .profile-photo   { position: static; }
+      .photo-frame     { max-width: 240px; }
+      .philosophy-grid { grid-template-columns: 1fr; gap: 3.5rem; }
+      .career-layout   { grid-template-columns: 1fr; gap: 2.5rem; }
+      .career-sticky-head { position: static; }
+    }
+    @media (max-width: 640px) {
+      .pstats-grid { grid-template-columns: 1fr; }
+      .pstat + .pstat { border-left: none; border-top: 1px solid rgba(255,255,255,.1); padding-top: 2.5rem; }
+      .sec-profile { padding: 5rem 0; }
+      .sec-philosophy { padding: 5rem 0; }
+      .sec-career { padding: 5rem 0; }
+      .career-item { grid-template-columns: 110px 1fr; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="index.html" class="logo">RUKA</a>
+    <nav id="nav">
+      <a href="profile.html" class="active"><span class="nav-en">Profile</span><span class="nav-ja">RUKAについて</span></a>
+      <a href="gallery.html"><span class="nav-en">Gallery</span><span class="nav-ja">作品集</span></a>
+      <a href="service.html"><span class="nav-en">Service</span><span class="nav-ja">ご依頼について</span></a>
+      <a href="news.html"><span class="nav-en">Blog</span><span class="nav-ja">ブログ</span></a>
+      <a href="faq.html"><span class="nav-en">FAQ</span><span class="nav-ja">よくある質問</span></a>
+      <div class="nav-lang">
+        <button class="lang-sw-btn" data-lang="ja">JP</button>
+        <span class="lang-sw-sep">|</span>
+        <button class="lang-sw-btn" data-lang="en">EN</button>
+      </div>
+      <div class="nav-cta-wrap">
+        <a href="contact.html" class="header-cta-btn header-cta-btn--fill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>お問い合わせ</a>
+      </div>
+    </nav>
+    <div class="header-cta">
+      <a href="contact.html" class="header-cta-btn header-cta-btn--fill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>お問い合わせ</a>
+    </div>
+    <div class="lang-sw">
+      <button class="lang-sw-btn" data-lang="ja">JP</button>
+      <span class="lang-sw-sep">|</span>
+      <button class="lang-sw-btn" data-lang="en">EN</button>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="page-hero">
+  <img class="page-hero-bg" src="images/hato.jpg" alt="">
+  <div class="wrap">
+    <h1 class="mv-en">Profile</h1>
+    <p class="mv-ja">RUKAについて</p>
+  </div>
+</div>
+
+
+<!-- PROFILE -->
+<section class="sec-profile">
+  <div class="wrap">
+    <div class="profile-grid">
+
+      <div class="profile-photo">
+        <div class="photo-frame">
+          <!-- ★ここに作者写真を入れてください★
+               <img src="images/photo.jpg" alt="Ruka" style="width:100%;height:100%;object-fit:cover;"> -->
+          <svg viewBox="0 0 300 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="400" fill="#f0ece6"/>
+            <ellipse cx="150" cy="195" rx="130" ry="168" fill="#e8e2d8"/>
+            <ellipse cx="150" cy="130" rx="52" ry="62" fill="#d4cbbf"/>
+            <path d="M92 285 Q100 226 150 214 Q200 226 208 285 Q192 332 150 340 Q108 332 92 285Z" fill="#d4cbbf"/>
+            <path d="M248 340 Q242 302 236 266 Q228 224 242 193" stroke="#9ab4a4" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <path d="M236 276 Q214 264 206 242 Q222 238 236 258Z" fill="#9ab4a4" opacity=".65"/>
+            <path d="M242 246 Q264 234 272 210 Q255 206 242 226Z" fill="#b2c8bb" opacity=".6"/>
+            <circle cx="242" cy="182" r="11" fill="#c4906e" opacity=".75"/>
+          </svg>
+        </div>
+        <div class="photo-caption">
+          <strong>Ruka（るか）</strong>
+          イラストレーター<br>
+          <!-- ★住所を入れてください★ -->
+          大阪府在住
+        </div>
+      </div>
+
+      <div>
+        <span class="eyebrow">Illustrator</span>
+        <h2 class="profile-name">Ruka</h2>
+        <p class="profile-name-ja">るか</p>
+
+        <ul class="profile-meta">
+          <li>
+            <span class="k">所在地</span>
+            <!-- ★住所を実際の内容に変えてください★ -->
+            <span class="v">大阪府（全国・リモート対応）</span>
+          </li>
+          <li>
+            <span class="k">活動</span>
+            <span class="v">書籍装画・広告・キャラクターデザイン</span>
+          </li>
+          <li>
+            <span class="k">Email</span>
+            <span class="v">info@ruka-illustration.com</span>
+          </li>
+        </ul>
+
+        <!-- ★テキストを実際の自己紹介に書き換えてください★ -->
+        <p class="profile-text">大阪を拠点に活動するフリーランスイラストレーター。書籍装画を中心に、広告・ブランディング・キャラクターデザインなど幅広いジャンルのイラストを手がけています。</p>
+        <p class="profile-text">繊細な線と柔らかな色彩を得意とし、アナログ（水彩・色鉛筆）とデジタルを組み合わせた独自のスタイルで制作しています。クライアントの世界観を丁寧に読み込み、「見る人の記憶に残る一枚」を目指しています。</p>
+        <p class="profile-text">現在、書籍装画・広告・Web・印刷物のご依頼を承っています。</p>
+
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:2.5rem;">
+          <a href="gallery.html" class="btn btn-fill btn-sm">作品を見る</a>
+          <a href="contact.html"   class="btn btn-sm">無料相談・お問い合わせ</a>
+        </div>
+
+        <div style="margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border);">
+          <p style="font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);margin-bottom:1rem;">SNS</p>
+          <div style="display:flex;gap:1.5rem;flex-wrap:wrap;">
+            <a href="https://www.instagram.com/imagen_luca?igsh=OGRra2x5NGVub3J4&utm_source=qr" class="snslink" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>Instagram</a>
+            <a href="https://www.threads.com/@imagen_luca?igshid=NTc4MTIwNjQ2YQ==" class="snslink" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.702 1.31 2.807 3.171 3.288 5.529l-2.498.368c-.79-3.971-3.277-5.996-7.617-6.006-2.915.015-5.084.925-6.45 2.706C4.48 6.094 3.76 8.499 3.737 11.99c.024 3.494.745 5.9 2.006 7.299 1.367 1.782 3.537 2.69 6.455 2.706 2.668-.012 4.52-.707 5.62-2.113.813-1.026 1.254-2.537 1.314-4.494a9.856 9.856 0 0 1-.65.032c-3.46 0-6.16-1.165-7.495-3.108-.753-1.08-1.057-2.4-.884-3.82.196-1.614.94-3.01 2.074-3.926 1.09-.882 2.483-1.297 4.044-1.2 1.877.12 3.34.965 4.22 2.398.69 1.124.99 2.635.89 4.494l-.005.091c-.042.966-.227 1.845-.555 2.62-.47 1.115-1.218 1.944-2.218 2.46-.56.29-1.17.467-1.82.525l-.022.002c-.172.015-.345.022-.52.022-1.71 0-3.234-.593-4.41-1.715.126 1.04.44 1.838.95 2.367.655.693 1.674 1.038 3.029 1.026.65-.006 1.22-.094 1.7-.26l.826 2.334c-.764.27-1.637.42-2.597.432zm.314-10.065c.144.023.285.034.42.034.51 0 .952-.152 1.316-.452.508-.419.837-1.068.978-1.932.101-.621.094-1.214-.022-1.715-.181-.779-.61-1.315-1.274-1.592a3.226 3.226 0 0 0-1.093-.196c-.85 0-1.567.275-2.076.796-.508.52-.793 1.265-.848 2.21-.06 1.003.184 1.828.706 2.39.484.52 1.197.813 2.057.857l-.164-.4z"/></svg>Threads</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 制作への想い -->
+<section class="sec-philosophy" id="philosophy">
+  <div class="wrap">
+    <div class="s-head">
+      <span class="eyebrow">制作への想い</span>
+      <h2 class="sec-deco-title">Philosophy</h2>
+    </div>
+    <div class="philosophy-grid">
+      <div class="philosophy-body">
+        <h3>線と色で、<em>記憶</em>に残るものを。</h3>
+        <!-- ★制作に対する想いをここに書いてください★ -->
+        <p>イラストは、言葉では伝えきれない感情や空気感を、一枚の絵に込めることができると思っています。依頼主の「伝えたいこと」を丁寧に聞き取り、見る人の心にそっと寄り添うような作品を目指しています。</p>
+        <p>書籍の装画では、文章を何度も読み込み、著者が作り上げた世界観を損なわないよう意識しています。広告では、ブランドの個性を確かな「絵としての強さ」で伝える——そのバランスを見つけることに、やりがいを感じています。</p>
+        <p>どんなご依頼でも、「この一枚があってよかった」と思っていただけることが、一番の喜びです。</p>
+      </div>
+      <div class="philosophy-quote">
+        <!-- ★お気に入りの言葉や制作モットーを入れてください★ -->
+        <p>"Every illustration is a conversation between the image and the reader."</p>
+        <cite>— Ruka</cite>
+      </div>
+    </div>
+
+    <!-- 途中CTA -->
+    <div class="cta-inline" style="margin-top:4rem;">
+      <p><strong>制作のご依頼・ご相談はこちらから</strong><br>まずはお気軽にご連絡ください。お見積もりは無料です。</p>
+      <a href="contact.html" class="btn btn-fill btn-sm" style="white-space:nowrap;">無料相談する</a>
+    </div>
+  </div>
+</section>
+
+<!-- CAREER -->
+<section class="sec-career" id="career">
+  <div class="wrap">
+    <div class="career-layout">
+      <div class="career-sticky-head">
+        <span class="eyebrow">経歴</span>
+        <h2 class="sec-deco-title">Career</h2>
+      </div>
+      <!-- ★経歴を実際の内容に書き換えてください★ -->
+      <div class="career-timeline">
+        <div class="career-item anim">
+          <div class="career-marker">
+            <span class="career-dot"></span>
+            <span class="career-year">2018</span>
+          </div>
+          <p class="career-desc"><strong>美術系大学 デザイン学科 卒業</strong>在学中よりイラストレーションを専攻し、卒業制作展にて優秀賞を受賞。</p>
+        </div>
+        <div class="career-item anim">
+          <div class="career-marker">
+            <span class="career-dot"></span>
+            <span class="career-year">2018–2021</span>
+          </div>
+          <p class="career-desc"><strong>デザイン事務所 勤務</strong>グラフィックデザイナーとして広告・パッケージデザインに携わりながら、イラスト制作の経験を積む。</p>
+        </div>
+        <div class="career-item anim">
+          <div class="career-marker">
+            <span class="career-dot"></span>
+            <span class="career-year">2021</span>
+          </div>
+          <p class="career-desc"><strong>フリーランスとして独立</strong>イラストレーター・Rukaとして活動を開始。書籍装画・広告・グッズデザインなど幅広く受注。</p>
+        </div>
+        <div class="career-item anim">
+          <div class="career-marker">
+            <span class="career-dot"></span>
+            <span class="career-year">2022</span>
+          </div>
+          <p class="career-desc"><strong>個展「線と色のあいだ」開催</strong>大阪市内のギャラリーにて約30点の作品を展示。</p>
+        </div>
+        <div class="career-item anim">
+          <div class="career-marker">
+            <span class="career-dot"></span>
+            <span class="career-year">2023</span>
+          </div>
+          <p class="career-desc"><strong>イラストレーター年鑑 掲載</strong>国内主要イラストレーター年鑑に作品が掲載される。</p>
+        </div>
+        <div class="career-item anim">
+          <div class="career-marker">
+            <span class="career-dot" style="background:var(--accent);"></span>
+            <span class="career-year" style="color:var(--accent);">現在</span>
+          </div>
+          <p class="career-desc"><strong>大阪を拠点に活動中</strong>書籍装画を中心に、広告・ブランディング・キャラクターデザインなどのご依頼を承っています。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<footer>
+  <div class="wrap">
+
+    <div class="ft-top">
+      <div>
+        <a href="index.html" class="ft-logo-link">RUKA</a>
+        <p class="ft-tagline">Illustration Works<br>書籍・広告・キャラクターデザイン<br>Osaka, Japan</p>
+      </div>
+      <div>
+        <div class="ft-nav-links">
+          <a href="index.html">トップ</a>
+          <a href="profile.html">Profile</a>
+          <a href="gallery.html">Gallery</a>
+          <a href="service.html">Service</a>
+          <a href="news.html">Blog</a>
+          <a href="faq.html">FAQ</a>
+          <a href="contact.html">お問い合わせ</a>
+        </div>
+        <div class="ft-sub-links">
+          <a href="download.html">資料ダウンロード</a>
+          <a href="privacy.html">プライバシーポリシー</a>
+        </div>
+      </div>
+    </div>
+
+    <hr class="ft-sep">
+
+    <div class="ft-cols">
+
+      <div>
+        <p class="ft-col-name">RUKA</p>
+        <p class="ft-col-info">フリーランスイラストレーター<br>Osaka, Japan</p>
+        <div class="ft-sns-row">
+          <a href="https://www.instagram.com/imagen_luca?igsh=OGRra2x5NGVub3J4&utm_source=qr" class="ft-sns-icon" aria-label="Instagram" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+          <a href="https://www.threads.com/@imagen_luca?igshid=NTc4MTIwNjQ2YQ==" class="ft-sns-icon" aria-label="Threads" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.702 1.31 2.807 3.171 3.288 5.529l-2.498.368c-.79-3.971-3.277-5.996-7.617-6.006-2.915.015-5.084.925-6.45 2.706C4.48 6.094 3.76 8.499 3.737 11.99c.024 3.494.745 5.9 2.006 7.299 1.367 1.782 3.537 2.69 6.455 2.706 2.668-.012 4.52-.707 5.62-2.113.813-1.026 1.254-2.537 1.314-4.494a9.856 9.856 0 0 1-.65.032c-3.46 0-6.16-1.165-7.495-3.108-.753-1.08-1.057-2.4-.884-3.82.196-1.614.94-3.01 2.074-3.926 1.09-.882 2.483-1.297 4.044-1.2 1.877.12 3.34.965 4.22 2.398.69 1.124.99 2.635.89 4.494l-.005.091c-.042.966-.227 1.845-.555 2.62-.47 1.115-1.218 1.944-2.218 2.46-.56.29-1.17.467-1.82.525l-.022.002c-.172.015-.345.022-.52.022-1.71 0-3.234-.593-4.41-1.715.126 1.04.44 1.838.95 2.367.655.693 1.674 1.038 3.029 1.026.65-.006 1.22-.094 1.7-.26l.826 2.334c-.764.27-1.637.42-2.597.432zm.314-10.065c.144.023.285.034.42.034.51 0 .952-.152 1.316-.452.508-.419.837-1.068.978-1.932.101-.621.094-1.214-.022-1.715-.181-.779-.61-1.315-1.274-1.592a3.226 3.226 0 0 0-1.093-.196c-.85 0-1.567.275-2.076.796-.508.52-.793 1.265-.848 2.21-.06 1.003.184 1.828.706 2.39.484.52 1.197.813 2.057.857l-.164-.4z"/></svg></a>
+        </div>
+      </div>
+
+      <div>
+        <p class="ft-col-name">ご依頼・お問い合わせ</p>
+        <p class="ft-col-info">ご依頼はお問い合わせフォームより<br>お気軽にご連絡ください。</p>
+        <ul class="ft-col-links">
+          <li><a href="contact.html">お問い合わせフォーム</a></li>
+          <li><a href="service.html">制作の流れ・料金</a></li>
+          <li><a href="download.html">資料ダウンロード</a></li>
+          <li><a href="faq.html">よくある質問</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="ft-col-name">制作サービス</p>
+        <ul class="ft-col-links">
+          <li><a href="gallery.html">書籍装画・挿絵</a></li>
+          <li><a href="gallery.html">キャラクターデザイン</a></li>
+          <li><a href="gallery.html">広告・ブランディング</a></li>
+          <li><a href="profile.html">RUKAについて</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="ft-bar">
+      <a href="#" class="ft-back-top" aria-label="ページトップへ">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+      </a>
+      <p class="ft-copy">COPYRIGHT © 2026 Ruka Illustration Works. All rights reserved.</p>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+  const btn = document.getElementById('menuBtn');
+  const nav = document.getElementById('nav');
+  const overlay = document.createElement('div');
+  overlay.className = 'nav-overlay';
+  document.body.appendChild(overlay);
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'nav-close-btn';
+  closeBtn.setAttribute('aria-label', 'メニューを閉じる');
+  closeBtn.innerHTML = '<span></span><span></span>';
+  nav.prepend(closeBtn);
+  function closeMenu() {
+    btn.classList.remove('open');
+    nav.classList.remove('open');
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  btn.addEventListener('click', () => {
+    const isOpen = nav.classList.toggle('open');
+    btn.classList.toggle('open', isOpen);
+    overlay.classList.toggle('open', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+  overlay.addEventListener('click', closeMenu);
+  closeBtn.addEventListener('click', closeMenu);
+
+
+  // Scroll animation
+  (function(){
+    const SELS = [
+      '.eyebrow', '.section-title', '.s-head',
+      '.contact-sub-h2', '.work-cat', '.work-title', '.work-meta-row',
+      '.works-grid > *', '.pickup-grid > *', '.latest-grid > *', '.posts-grid > *',
+      '.visual-sub-grid > *', '.visual-main',
+      '.card', '.blog-card', '.ex-card', '.cdl-card', '.pg-card', '.pg-card',
+      '.step',
+      'details',
+      '.contact-sub-grid > div',
+      '.contact-steps', '.contact-form-head', '.contact-form-body',
+      '.detail-body section', '.data-table',
+      '.ft-grid', '.cta-band', '.cta-inline',
+      '.pagination-grid > *',
+      '.sidebar-sec',
+      '.faq-toc', '.faq-cat',
+      '.featured-card', '.featured-body',
+      '.about-photo', '.philosophy-grid', '.career-item',
+      '.stats-strip', '.price-row', '.dl-card', '.pstat',
+      '.blog-layout > *', '.blog-sidebar > *'
+    ].join(',');
+    const all = Array.from(document.querySelectorAll(SELS));
+    const els = all.filter(el => !el.closest('.hero-full, .page-hero, .hero-scroll, .header-cta, header, .lang-sw'));
+    els.forEach(el => el.classList.add('anim'));
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('anim-in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.07 });
+    els.forEach(el => io.observe(el));
+  })();
+
+  // Language switcher
+  (function() {
+    const langBtns = document.querySelectorAll('.lang-sw-btn');
+    const saved = localStorage.getItem('lang') || 'ja';
+    document.documentElement.lang = saved;
+    document.body.classList.toggle('lang-en', saved === 'en');
+    langBtns.forEach(b => b.classList.toggle('active', b.dataset.lang === saved));
+    langBtns.forEach(b => b.addEventListener('click', () => {
+      const l = b.dataset.lang;
+      localStorage.setItem('lang', l);
+      document.documentElement.lang = l;
+      document.body.classList.toggle('lang-en', l === 'en');
+      langBtns.forEach(x => x.classList.toggle('active', x.dataset.lang === l));
+    }));
+  })();
+</script>
+</body>
+</html>
