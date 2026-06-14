@@ -799,6 +799,33 @@ details[open] summary::after { transform: rotate(45deg); }
   }
   .nav-overlay.open { opacity: 1; pointer-events: all; }
   .nav-close-btn { display: none; }
+  .nav-brand {
+    width: 100%;
+    padding: 1.25rem 0 .5rem;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+  .nav-brand-logo {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    color: var(--ink);
+    text-decoration: none;
+    display: block;
+    margin-bottom: .4rem;
+  }
+  .nav-brand-tagline {
+    font-size: .62rem;
+    color: var(--ink3);
+    line-height: 1.9;
+    margin-bottom: .75rem;
+  }
+  .nav-brand-sns {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
   .header-cta { display: none; }
   .nav-lang {
     display: flex;
@@ -812,7 +839,7 @@ details[open] summary::after { transform: rotate(45deg); }
     display: flex;
     flex-direction: column;
     gap: .6rem;
-    margin-top: .75rem;
+    margin-top: 1.5rem;
     width: 100%;
   }
   nav .nav-cta-wrap a {
