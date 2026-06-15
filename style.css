@@ -802,7 +802,6 @@ details[open] summary::after { transform: rotate(45deg); }
   .nav-brand {
     width: 100%;
     padding: 1.25rem 0 .5rem;
-    border-top: 1px solid var(--border);
     text-align: center;
   }
   .nav-brand-logo {
