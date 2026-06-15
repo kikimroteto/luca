@@ -851,7 +851,7 @@ details[open] summary::after { transform: rotate(45deg); }
   }
 }
 .nav-lang { display: none; }
-@media (min-width: 961px) { .nav-cta-wrap { display: none; } }
+@media (min-width: 961px) { .nav-cta-wrap { display: none; } .nav-brand { display: none; } }
 @media (max-width: 640px) {
   .cta-inline {
     flex-direction: column;
